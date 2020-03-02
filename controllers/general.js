@@ -48,10 +48,17 @@ router.post("/registration",(req,res)=>{
         });
 
         }else{
-            res.render("general/registration",{ //add customers
-                title:"registration",
-                headingInfo: "Registration"       
-            });
+                const {Name,email}=res.bdoy;
+                const sgMail = require('@sendgrid/mail');
+                sgMail.setApiKey("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");
+                const msg = {
+                  to: email,
+                  from: ``,
+                  subject: 'Welcome! Confirm Your Email',
+                  text: 'and easy to do anywhere, even with Node.js',
+                  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+                };
+                sgMail.send(msg);
         }
 
    
