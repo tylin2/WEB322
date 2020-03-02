@@ -38,6 +38,11 @@ router.post("/registration",(req,res)=>{
                 errorMessages.push("! Enter Your password");
         }
 
+        if(req.body.password!=req.body.password2)
+        {
+                errorMessages.push("! Passwords are not match");
+        }
+
         if(errorMessages.length > 0 )
         {
             res.render("general/registration",{ //add customers
@@ -48,17 +53,23 @@ router.post("/registration",(req,res)=>{
         });
 
         }else{
-                const {Name,email}=res.bdoy;
+                const {fullName, email}=req.body;
                 const sgMail = require('@sendgrid/mail');
-                sgMail.setApiKey("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");
+                sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
                 const msg = {
-                  to: email,
-                  from: ``,
+                  to: `${email}`,
+                  from: `tylin2@myseneca.ca`,
                   subject: 'Welcome! Confirm Your Email',
-                  text: 'and easy to do anywhere, even with Node.js',
-                  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+                  html: `Thanks for signing up! ${fullName} Your user name is ${email}.`,
                 };
-                sgMail.send(msg);
+                sgMail.send(msg)
+                .then(()=>{
+                        res.redirect("/");
+                })
+                .catch(err=>{
+                        console.log(`Error ${err}`)
+                })
+                res.redirect("/");
         }
 
    
