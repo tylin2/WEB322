@@ -43,11 +43,40 @@ app.get("/registration",(req,res)=>{
 
 //add new app.post
 app.post("/registration",(req,res)=>{
+    const errorMessages = [];
+        
+        if(req.body.Name=="")
+        {
+                errorMessages.push("! Enter Your Name");
+        }
 
-    res.render("customers/registration",{ //add customers
-        title:"registration",
-        headingInfo: "Registration"       
-    });
+        if(req.body.email=="")
+        {
+                errorMessages.push("! Enter Your email");
+        }
+
+        if(req.body.password=="")
+        {
+                errorMessages.push("! Enter Your password");
+        }
+
+        if(errorMessages.length > 0 )
+        {
+            res.render("customers/registration",{ //add customers
+                title : "registration",
+                headingInfo: "Registration",                        
+                errors : errorMessages
+               
+        });
+
+        }else{
+            res.render("customers/registration",{ //add customers
+                title:"registration",
+                headingInfo: "Registration"       
+            });
+        }
+
+   
 
 });
 
@@ -68,8 +97,9 @@ app.get("/login",(req,res)=>{
         {
                 res.render("customers/login",{ //add customers
                         title : "login",
-                        headingInfo: "Login",   
-                        errors : errorMessages                
+                        headingInfo: "Login",                        
+                        successMessage : ``
+                       
                 });
         }
         else
@@ -81,7 +111,6 @@ app.get("/login",(req,res)=>{
                         successMessage : ``
                        
                 });
-
         }
 });
 

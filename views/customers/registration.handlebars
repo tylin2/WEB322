@@ -1,8 +1,3 @@
-<!-- Will only show if the errors array exists-->
-{{#each errors}}
-    <div >{{this}}</div>
-{{/each}}
-
 
 <!--This will only show if the successMessage was injected into the view -->
 <div>{{successMessage}}</div>
@@ -18,7 +13,12 @@
         <input type="password" id="password" name="password"> <br><br>
 
         <label for="password2">Password again: </label>
-        <input type="password2" id="password2" name="password2"> <br><br>       
+        <input type="password2" id="password2" name="password2"> <br><br>
+        
+<!-- Will only show if the errors array exists-->
+{{#each errors}}
+    <div >{{this}}</div>
+{{/each}}       
 
         <input type="submit" value="Create your account">
 

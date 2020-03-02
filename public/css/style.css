@@ -144,3 +144,11 @@ footer
     width: 150px;
     height: 200px;
 }
+
+form div{
+    color: red;
+    font-size:17px;
+    font-weight: bold;
+    font-style: italic;    
+
+}
