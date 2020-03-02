@@ -1,0 +1,21 @@
+<!-- Will only show if the errors array exists-->
+{{#each errors}}
+    <div >{{this}}</div>
+{{/each}}
+
+
+<!--This will only show if the successMessage was injected into the view -->
+<div>{{successMessage}}</div>
+    <form action="/login" method="GET">
+
+        <label for="email">Email: </label>
+        <input type="email" id="email" name="email"> <br><br>
+
+        <label for="password">Password: </label>
+        <input type="password" id="password" name="password"> <br><br>       
+
+        <input type="submit" value="Login">
+
+    </form>
+
+</section>

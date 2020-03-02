@@ -1,0 +1,17 @@
+<section class="products">
+    {{#each products}}
+        <div class="allproducts">
+            <img src={{this.img}} alt="" width="100" height="140">
+            <br>
+            <p>
+                {{this.Name}}
+            </p>            
+            <p id="price">
+                CDN$ {{this.Price}}
+            </p>
+            <p>
+                Released Date is {{this.ReleasedDate}}
+            </p>
+        </div>
+    {{/each}}
+</section>
