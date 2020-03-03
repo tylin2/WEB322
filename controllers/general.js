@@ -23,7 +23,7 @@ router.get("/registration",(req,res)=>{
 router.post("/registration",(req,res)=>{
     const errorMessages = [];
         
-        if(req.body.Name=="")
+        if(req.body.fullName=="")
         {
                 errorMessages.push("! Enter Your Name");
         }
