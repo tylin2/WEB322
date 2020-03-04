@@ -21,15 +21,17 @@ router.get("/registration",(req,res)=>{
 
 //add new app.post
 router.post("/registration",(req,res)=>{
+        
     const errorMessages = [];
         
         if(req.body.fullName=="")
-        {
+        {    
+                        
                 errorMessages.push("! Enter Your Name");
         }
 
-        if(req.body.email=="")
-        {
+        if(req.body.email=="")        {
+                
                 errorMessages.push("! Enter Your email");
         }
 
@@ -37,18 +39,27 @@ router.post("/registration",(req,res)=>{
         {
                 errorMessages.push("! Enter Your password");
         }
+        var reg = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~!@#$%^&*()_+`\-={}:";'<>?,.\/]).{6,12}$/;                    
+        if (!reg.test(req.body.password)) {
+                errorMessages.push("! Password must consist of 6-12 letters, numbers, and special symbols");
+        }
 
         if(req.body.password!=req.body.password2)
         {
                 errorMessages.push("! Passwords are not match");
         }
-
+       
         if(errorMessages.length > 0 )
         {
+                
             res.render("general/registration",{ 
                 title : "registration",
                 headingInfo: "Registration",                        
-                errors : errorMessages               
+                errors : errorMessages,
+                fullName:req.body.fullName,
+                email:req.body.email,
+                password:req.body.password,
+                password2:req.body.password2               
                 });
 
         }else{
@@ -79,29 +90,37 @@ router.post("/registration",(req,res)=>{
 });
 
 router.get("/login",(req,res)=>{
+       
+        res.render("general/login",{ //add customers
+                title:"login",
+                headingInfo: "Login"       
+        });
+            
+});
+
+router.post("/login",(req,res)=>{
+
     const errorMessages = [];
         
         if(req.body.email=="")
         {
-                errorMessages.push("Invaild email");
+                errorMessages.push("! Enter Your email");
         }
 
         if(req.body.password=="")
         {
-                errorMessages.push("Incorrect password");
+                errorMessages.push("! Enter Your password");
         }
 
         if(errorMessages.length >0 )
         {
-                res.render("general/login",{ //add customers
+                res.render("general/login",{ 
                         title : "login",
                         headingInfo: "Login",                        
-                        successMessage : ``
-                       
+                        errors : errorMessages               
                 });
-        }
-        else
-        {
+
+        } else {
                 
                 res.render("general/login",{ //add customers
                         title : "login",
