@@ -56,13 +56,16 @@ router.post("/registration",(req,res)=>{
                 const {fullName, email}=req.body;
                 const sgMail = require('@sendgrid/mail');
                 sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
-                const msg = {
+                const welcome = {
                   to: `${email}`,
                   from: `tylin2@myseneca.ca`,
                   subject: 'Welcome! Confirm Your Email',
-                  html: `Thanks for signing up! ${fullName} Your user name is ${email}.`,
+                  html: 
+                  `Thanks for signing up! ${fullName} <br> 
+                   Your username is ${email}.<br>
+                  `,
                 };
-                sgMail.send(msg)
+                sgMail.send(welcome)
                 .then(()=>{
                         res.redirect("/");
                 })
