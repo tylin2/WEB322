@@ -5,7 +5,7 @@ router.get("/",(req,res)=>{
    
     res.render("general/app",{ //add general
         title:"Home",
-        headingInfo: "Home Page"
+        headingInfo: "Nintenda"
     });
 
 });
