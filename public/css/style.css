@@ -84,14 +84,16 @@ footer
 }
 .products{    
     padding-left: 15%;
-    float: left;   
+    float: left;
+    grid-template-rows: auto 1fr auto;
      
 }
 
 .allproducts{
     float: left;
-    border-style: groove;           
-    grid-template-columns: 1fr 1fr 1fr;          
+    border-style: groove;    
+    width: 32%;      
+              
 }
 
 
@@ -119,8 +121,8 @@ footer
 .CategoryPicture{
     background-color:#fff;
     float: left;
-    width: 24.3%;
-    padding: 5px;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    padding: 41.9px ;
 }
 .CategoryPicture img{
     width: 280px;
@@ -137,7 +139,8 @@ footer
 }
 .BestSellerPicture{
     background-color:#fff;
-    float: left;    
+    float: left;
+    grid-template-columns: 1fr 1fr 1fr 1fr;    
     padding: 5px 100px;
 }
 .BestSellerPicture img{
