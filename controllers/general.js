@@ -45,12 +45,11 @@ router.post("/registration",(req,res)=>{
 
         if(errorMessages.length > 0 )
         {
-            res.render("general/registration",{ //add customers
+            res.render("general/registration",{ 
                 title : "registration",
                 headingInfo: "Registration",                        
-                errors : errorMessages
-               
-        });
+                errors : errorMessages               
+                });
 
         }else{
                 const {fullName, email}=req.body;
@@ -58,8 +57,8 @@ router.post("/registration",(req,res)=>{
                 sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
                 const welcome = {
                   to: `${email}`,
-                  from: `tylin2@myseneca.ca`,
-                  subject: 'Welcome! Confirm Your Email',
+                  from: `s88432000@gmail.com`,
+                  subject: `Welcome! Confirm Your Email`,
                   html: 
                   `Thanks for signing up! ${fullName} <br> 
                    Your username is ${email}.<br>
@@ -72,7 +71,7 @@ router.post("/registration",(req,res)=>{
                 .catch(err=>{
                         console.log(`Error ${err}`)
                 })
-                res.redirect("/");
+                
         }
 
    
