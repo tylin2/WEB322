@@ -22,7 +22,7 @@ h1,h2,h3
 }
 
 p{
-    margin-bottom: 8pxs;
+    margin-bottom: 8px;
 }
 
 
@@ -40,7 +40,7 @@ header
 
 header h1 
 {
-    font-size:60px;
+    font-size:350%;
     padding:15px 20px;
     color:#eee;
     margin: 10px;
@@ -85,13 +85,14 @@ footer
 .products{    
     padding-left: 15%;
     float: left;
+     
 }
 
 .allproducts{
-    float: left;    
+    float: left;
+    border-style: groove;    
     width: 32%;      
-    border-style: groove;
-           
+              
 }
 
 
@@ -154,9 +155,9 @@ form div{
 }
 
 #Category{
-    position:absolute;
-    left:15px;
-    top:95px;
+    position: relative;
+    left:-225px;
+    top:0px;
     font-weight: bold; 
     color: #702727;
 }
