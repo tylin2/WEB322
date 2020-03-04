@@ -40,7 +40,7 @@ header
 
 header h1 
 {
-    font-size:350%;
+    font-size:300%;
     padding:15px 20px;
     color:#eee;
     margin: 10px;
@@ -84,7 +84,7 @@ footer
 }
 .products{    
     padding-left: 15%;
-    float: left;
+    float: left;   
      
 }
 
@@ -92,7 +92,7 @@ footer
     float: left;
     border-style: groove;    
     width: 32%;      
-              
+    grid-template-columns: 1fr 1fr 1fr;          
 }
 
 
@@ -155,9 +155,9 @@ form div{
 }
 
 #Category{
-    position: relative;
-    left:-225px;
-    top:0px;
+    position:absolute;
+    left:15px;
+    top:95px;
     font-weight: bold; 
     color: #702727;
 }
