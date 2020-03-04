@@ -90,8 +90,7 @@ footer
 
 .allproducts{
     float: left;
-    border-style: groove;    
-    width: 32%;      
+    border-style: groove;           
     grid-template-columns: 1fr 1fr 1fr;          
 }
 
