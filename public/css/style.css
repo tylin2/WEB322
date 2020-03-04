@@ -152,3 +152,11 @@ form div{
     font-style: italic;    
 
 }
+
+#Category{
+    position:absolute;
+    left:15px;
+    top:95px;
+    font-weight: bold; 
+    color: #702727;
+}
