@@ -7,7 +7,7 @@ var productSchema = new Schema({
       required:true
   },
   Price:{
-    type:Number,
+    type:number,
     required:true
   },
   Category:{
@@ -27,10 +27,10 @@ var productSchema = new Schema({
     type:Number,
     required:true
   },
-  img:{
+  /*img:{
     type:String,
     required:true
-  },
+  },*/
   dateCreate:{
     type:Date,
     default:Date.now()      
@@ -38,6 +38,6 @@ var productSchema = new Schema({
   //createBy:{ }
 });
 
-const productModel = mongoose.model('product', productModel);
+const productModel = mongoose.model('products', productSchema);
 
 module.exports = productModel;

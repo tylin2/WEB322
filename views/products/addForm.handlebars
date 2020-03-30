@@ -1,0 +1,37 @@
+
+    <form method="POST" action="/products/add" id="addProuct">
+
+        <label>Name: </label>
+        <input type="text" name="Name" id="Name" value={{Name}}> <br><br>
+
+        <label>Price: </label>
+        <input type="number" name="Price" id="Price"  step="0.01" value={{Price}}> <br><br>
+
+        <label>Category: </label>
+        <select name="Category">  
+            <option value="" selected>  </option>          
+            <option value="Adventure">Adventure</option>
+            <option value="Party">Party</option>
+            <option value="Racing">Racing</option>
+            <option value="Sports">Sports</option>            
+        </select> <br><br>
+
+        <label>Best Seller: </label> False <br><br> 
+        <!-- <select name="BestSeller">
+            <option value="ture">Ture</option>
+            <option value="false">False</option>            
+        </select>-->
+
+        <label>Released Date: </label>
+        <input type="date" name="ReleasedDate" id="ReleasedDate" value={{ReleasedDate}}> <br><br>
+
+        <label>Max Players: </label>
+        <input type="number" name="Players" id="Players" value={{Players}}> <br><br>
+
+            {{#each errors}}
+            <div >{{this}}</div>
+            {{/each}}        
+       
+        <input type="submit" value="Add Product">
+
+    </form>

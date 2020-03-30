@@ -5,7 +5,7 @@ const products=
     init()
     {
 
-        this.fakeDB.push({Name: "Luigi’s Mansion 3",Price: 79.99,Category: "Action",
+        this.fakeDB.push({Name: "Luigi’s Mansion 3",Price: 79.99,Category: "Adventure",
         BestSeller: true, ReleasedDate: "Oct 31, 2019",Players:"up to 8 players"
         ,img:`/img/0.png`});
     

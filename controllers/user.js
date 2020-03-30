@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router();
+const userModel = require("../model/users");
 
 router.get("/registration",(req,res)=>{
 
@@ -15,34 +16,27 @@ router.post("/registration",(req,res)=>{
         
     const errorMessages = [];
         
-        if(req.body.fullName=="")
-        {    
-                        
+        if(req.body.fullName=="")  {                            
                 errorMessages.push("! Enter Your Name");
         }
 
-        if(req.body.email=="")        {
-                
+        if(req.body.email=="")  {                
                 errorMessages.push("! Enter Your email");
         }
 
-        if(req.body.password=="")
-        {
+        if(req.body.password=="")   {
                 errorMessages.push("! Enter Your password");
         }
-        var reg = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~!@#$%^&*()_+`\-={}:";'<>?,.\/]).{6,12}$/;                    
+        const reg = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~!@#$%^&*()_+`\-={}:";'<>?,.\/]).{6,12}$/;                    
         if (!reg.test(req.body.password)) {
                 errorMessages.push("! Password must consist of 6-12 letters, numbers, and special symbols");
         }
 
-        if(req.body.password!=req.body.password2)
-        {
+        if(req.body.password!=req.body.password2)  {
                 errorMessages.push("! Passwords are not match");
         }
        
-        if(errorMessages.length > 0 )
-        {
-                
+        if(errorMessages.length > 0 )  {                
             res.render("users/registration",{ 
                 title : "registration",
                 headingInfo: "Registration",                        
@@ -73,6 +67,14 @@ router.post("/registration",(req,res)=>{
                 .catch(err=>{
                         console.log(`Error ${err}`)
                 })
+                
+                const newUser = {
+                        fullName:req.body.fullName,
+                        email:req.body.email,
+                        password:req.body.password
+                }
+
+                const user = new userModel(newUser);
                 
         }
 
