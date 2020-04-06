@@ -1,0 +1,38 @@
+    <form method="POST" action="/products/edit/{{_id}}?method=PUT" id="editProuct">
+    
+        <label>Name: </label>
+        <input type="text" name="Name" id="Name" value={{Name}}> <br><br>
+
+        <label>Price: </label>
+        <input type="number" name="Price" id="Price"  step="0.01" value={{Price}}> <br><br>
+
+        <label>Category: </label>
+        <select name="Category">
+            {{!to be fixed}}  
+            {{!{{#if_eq Category}}{{!selected{{/if}}                       
+            <option value="Adventure">Adventure</option>
+            <option value="Party">Party</option>
+            <option value="Racing">Racing</option>
+            <option value="Sports">Sports</option>            
+        </select> <br><br>
+
+        <label>Best Seller: </label> 
+        <select name="BestSeller">
+            <option value="true">True</option>
+            <option value="false" selected>False</option>            
+        </select> <br><br>
+
+        <label>Released Date: </label>
+        {{!to be fixed}}        
+        <input type="date" name="ReleasedDate" id="ReleasedDate" value={{ReleasedDate}}>{{ReleasedDate}} <br><br>
+
+        <label>Max Players: </label>
+        <input type="number" name="Players" id="Players" value={{Players}}> <br><br>
+
+            {{#each errors}}
+            <div >{{this}}</div>
+            {{/each}}        
+       
+        <input type="submit" value="Edit Product">
+
+    </form>

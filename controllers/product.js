@@ -101,8 +101,88 @@ router.get("/list",(req,res)=>{
             data:filterProducts                   
         })
     })
-    .catch(err=>console.log(`Error happened when pulling from the database: ${err}`));
+    .catch(err=>console.log(`Error happened when pulling from the database: ${err}`));    
+})
+
+router.get("/edit/:id",(req,res)=>{
+    //params.id: id is come from :id
+    productModel.findById(req.params.id)
+    .then((product)=>{
+        const {_id,Name,Price,Category,ReleasedDate,Players,BestSeller}=product;
+        res.render("products/editForm",{
+            title:"Edit Product",
+            headingInfo: "Edit Product",
+            _id,Name,Price,Category,ReleasedDate,Players,BestSeller            
+        })
+    })
+    .catch(err=>console.log(`Error happened when editing for the database: ${err}`));
     
+})
+
+router.put("/edit/:id",(req,res)=>{
+    const errorMessages = [];
+        
+        if(req.body.Name=="")  {                            
+                errorMessages.push("! Enter Product's Name");
+        }
+
+        if(req.body.Price=="")  {                            
+            errorMessages.push("! Enter Product's Price");
+        }else{                                
+            if (req.body.Price<=0) {
+                    errorMessages.push("! Enter Correct Product's Price");
+            }
+        }
+
+        if(req.body.Category=="")  {                            
+            errorMessages.push("! Enter Product's Category");
+        }
+
+        if(req.body.ReleasedDate=="")  {                            
+            errorMessages.push("! Enter Product's Released Date");
+        }
+
+        if(req.body.Players=="")  {                            
+            errorMessages.push("! Enter Product's Max Players");
+        }else{
+            if(req.body.Players<=0)  {                
+                errorMessages.push("! Enter the Correct Product's Max Players");
+            }
+        }
+
+        if(errorMessages.length > 0 )  {                
+            res.render("products/editForm",{
+                title:"Edit Product",
+                headingInfo: "Edit Product",                        
+                errors : errorMessages,
+                Name: req.body.Name,
+                Price : req.body.Price,
+                Category : req.body.Category,
+                ReleasedDate : req.body.ReleasedDate,
+                Players : req.body.Players               
+            });
+
+        }else{
+            const product={
+                //body.nameOfSchma
+                Name:req.body.Name,
+                Price:req.body.Price,
+                Category:req.body.Category,
+                BestSeller:req.body.BestSeller,
+                ReleasedDate:req.body.ReleasedDate,
+                Players:req.body.Players
+            }
+            productModel.updateOne({_id:req.params.id},product)
+            .then(()=>{
+               res.redirect("/products/list") 
+            })
+            .catch(err=>console.log(`Error happened when updating for the database: ${err}`));            
+        }
+    
+})
+
+router.delete("/delete/:id",(req,res)=>{
+
 })
 
 module.exports=router;
