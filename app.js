@@ -2,6 +2,7 @@ const express = require("express");
 const exphbs= require("express-handlebars");
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const fileUpload = require('express-fileupload');
 
 require('dotenv').config({path:"./config/keys.env"}); //load environment variable file
 
@@ -24,7 +25,6 @@ app.engine("handlebars",exphbs(
     }*/
 ));
 app.set("view engine", "handlebars");
-
 app.use((req,res,next)=>{
     if(req.query.method=="PUT"){
         req.method="PUT"
@@ -34,6 +34,7 @@ app.use((req,res,next)=>{
     }
     next();
 })
+app.use(fileUpload());
 
 app.use("/",generalController);
 app.use("/products",productController);

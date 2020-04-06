@@ -27,10 +27,9 @@ var productSchema = new Schema({
     type:Number,
     required:true
   },
-  /*img:{
-    type:String,
-    required:true
-  },*/
+  productPic:{
+    type:String    
+  },
   dateCreate:{
     type:Date,
     default:Date.now()      

@@ -1,5 +1,5 @@
 
-    <form method="POST" action="/products/add" id="addProuct">
+    <form method="POST" action="/products/add" id="addProuct" enctype="multipart/form-data">
 
         <label>Name: </label>
         <input type="text" name="Name" id="Name" value={{Name}}> <br><br>
@@ -27,6 +27,9 @@
 
         <label>Max Players: </label>
         <input type="number" name="Players" id="Players" value={{Players}}> <br><br>
+
+        <label>Picture Upload</label>
+        <input type="file" name="productPic" id="productPic"> <br><br>
 
             {{#each errors}}
             <div >{{this}}</div>

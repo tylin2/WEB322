@@ -1,7 +1,7 @@
     <form method="POST" action="/products/edit/{{_id}}?method=PUT" id="editProuct">
     
         <label>Name: </label>
-        <input type="text" name="Name" id="Name" value={{Name}}> <br><br>
+        <input type="text" name="Name" id="Name" value="{{Name}}"> <br><br>
 
         <label>Price: </label>
         <input type="number" name="Price" id="Price"  step="0.01" value={{Price}}> <br><br>
@@ -28,6 +28,8 @@
 
         <label>Max Players: </label>
         <input type="number" name="Players" id="Players" value={{Players}}> <br><br>
+
+        <img src="/uploads/{{productPic}}"> <br><br>
 
             {{#each errors}}
             <div >{{this}}</div>
