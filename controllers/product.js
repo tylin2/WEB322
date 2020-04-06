@@ -83,10 +83,26 @@ router.post("/add",(req,res)=>{
 });
 
 router.get("/list",(req,res)=>{
-    res.render("products/listForm",{ 
-        title:"MyAccount",
-        headingInfo: "MyAccount"       
+    productModel.find()
+    .then((products)=>{
+        //forEach does not return an array(filterProducts)
+        const filterProducts=products.map(product=>{
+            return{
+                id:product._id,
+                Name:product.Name,
+                Price:product.Price,
+                Category:product.Category,
+                BestSeller:product.BestSeller                
+            }
+        });
+        res.render("products/listForm",{ 
+            title:"MyAccount",
+            headingInfo: "MyAccount",
+            data:filterProducts                   
+        })
     })
+    .catch(err=>console.log(`Error happened when pulling from the database: ${err}`));
+    
 })
 
 module.exports=router;

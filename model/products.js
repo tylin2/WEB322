@@ -7,7 +7,7 @@ var productSchema = new Schema({
       required:true
   },
   Price:{
-    type:number,
+    type:mongoose.Decimal128,
     required:true
   },
   Category:{
