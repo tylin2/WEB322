@@ -75,11 +75,24 @@ router.post("/registration",(req,res)=>{
                 }
 
                 const user = new userModel(newUser);
-                
+                user.save()                
+                .then(()=>{
+                        res.redirect("/users/myAccount");          
+                })           
+                .catch(err=>console.log(`Error happened when inserting in the database: ${err}`));                
         }
 
    
 
+});
+
+router.get("/myAccount",(req,res)=>{
+       
+        res.render("users/userAccount",{ //add customers
+                title:"MyAccount",
+                headingInfo: "MyAccount"       
+        });
+            
 });
 
 router.get("/login",(req,res)=>{
