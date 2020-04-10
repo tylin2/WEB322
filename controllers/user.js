@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router();
 const userModel = require("../model/users");
 const bcrypt = require("bcryptjs");
+const isLoggedIn = require("../middleware/auth");
+const AccountLoader = require("../middleware/authorization");
 
 router.get("/registration",(req,res)=>{
 
@@ -87,15 +89,6 @@ router.post("/registration",(req,res)=>{
 
 });
 
-router.get("/myAccount",(req,res)=>{
-       
-        res.render("users/userAccount",{ 
-                title:"MyAccount",
-                headingInfo: "MyAccount"       
-        });
-            
-});
-
 router.get("/login",(req,res)=>{
        
         res.render("users/login",{ 
@@ -122,7 +115,7 @@ router.post("/login",(req,res)=>{
                 .then(isMatched=>{
                         if(isMatched){
                                 req.session.userInfo=user;
-                                res.redirect("/users/myAccount");
+                                res.redirect("/users/myAccount");                                
                         }
                         else {
                                 errors.push("Sorry!! Your email or password is incorrect")
@@ -138,6 +131,8 @@ router.post("/login",(req,res)=>{
     })
     .catch(err=>console.log(`Error: ${err}`));
 });
+
+router.get("/myAccount",isLoggedIn,AccountLoader);
 
 router.get("/logout",(req,res)=>{
        req.session.destroy();

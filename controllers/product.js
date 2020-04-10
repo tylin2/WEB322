@@ -3,6 +3,7 @@ const router = express.Router();
 const productModel2 = require("../model/product");
 const productModel = require("../model/products");
 const path=require("path");
+const isLoggedIn = require("../middleware/auth");
 
 //because product already wrote in app.use("/products",productController);
 //we just wrote / here
@@ -23,7 +24,7 @@ router.get("/add",(req,res)=>{
     });
 });
 
-router.post("/add",(req,res)=>{
+router.post("/add",isLoggedIn,(req,res)=>{
     const errorMessages = [];
         
         if(req.body.Name=="")  {                            
@@ -92,7 +93,7 @@ router.post("/add",(req,res)=>{
         }
 });
 
-router.get("/list",(req,res)=>{
+router.get("/list",isLoggedIn,(req,res)=>{
     productModel.find()
     .then((products)=>{
         //forEach does not return an array(filterProducts)
@@ -114,7 +115,7 @@ router.get("/list",(req,res)=>{
     .catch(err=>console.log(`Error happened when pulling from the database: ${err}`));    
 })
 
-router.get("/edit/:id",(req,res)=>{
+router.get("/edit/:id",isLoggedIn,(req,res)=>{
     //params.id: id is come from :id
     productModel.findById(req.params.id)
     .then((product)=>{
@@ -129,7 +130,7 @@ router.get("/edit/:id",(req,res)=>{
     
 })
 
-router.put("/edit/:id",(req,res)=>{
+router.put("/edit/:id",isLoggedIn,(req,res)=>{
     const product={
         //body.nameOfSchma
         Name:req.body.Name,
@@ -147,7 +148,7 @@ router.put("/edit/:id",(req,res)=>{
     
 })
 
-router.delete("/delete/:id",(req,res)=>{
+router.delete("/delete/:id",isLoggedIn,(req,res)=>{
     productModel.deleteOne({_id:req.params.id})
     .then(()=>{
         res.redirect("/products/list");
