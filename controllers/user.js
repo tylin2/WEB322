@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router();
 const userModel = require("../model/users");
+const bcrypt = require("bcryptjs");
 
 router.get("/registration",(req,res)=>{
 
@@ -88,7 +89,7 @@ router.post("/registration",(req,res)=>{
 
 router.get("/myAccount",(req,res)=>{
        
-        res.render("users/userAccount",{ //add customers
+        res.render("users/userAccount",{ 
                 title:"MyAccount",
                 headingInfo: "MyAccount"       
         });
@@ -97,7 +98,7 @@ router.get("/myAccount",(req,res)=>{
 
 router.get("/login",(req,res)=>{
        
-        res.render("users/login",{ //add customers
+        res.render("users/login",{ 
                 title:"login",
                 headingInfo: "Login"       
         });
@@ -105,36 +106,42 @@ router.get("/login",(req,res)=>{
 });
 
 router.post("/login",(req,res)=>{
+    userModel.findOne({email:req.body.email})
+    .then(user=>{
+            const errors=[];
+            if(user==null)  {
+                    errors.push("Sorry!! Your email or password is incorrect")
+                    res.render("users/login",{ 
+                        title:"login",
+                        headingInfo: "Login",
+                        errors       
+                        });
+            } 
+            else {
+                bcrypt.compare(req.body.password, user.password)
+                .then(isMatched=>{
+                        if(isMatched){
+                                req.session.userInfo=user;
+                                res.redirect("/users/myAccount");
+                        }
+                        else {
+                                errors.push("Sorry!! Your email or password is incorrect")
+                                res.render("users/login",{ 
+                                    title:"login",
+                                    headingInfo: "Login",
+                                    errors       
+                                    });
+                        }
+                })
+                .catch(err=>console.log(`Error: ${err}`));   
+            }
+    })
+    .catch(err=>console.log(`Error: ${err}`));
+});
 
-    const errorMessages = [];
-        
-        if(req.body.email=="")
-        {
-                errorMessages.push("! Enter Your email");
-        }
-
-        if(req.body.password=="")
-        {
-                errorMessages.push("! Enter Your password");
-        }
-
-        if(errorMessages.length >0 )
-        {
-                res.render("users/login",{ 
-                        title : "login",
-                        headingInfo: "Login",                        
-                        errors : errorMessages               
-                });
-
-        } else {
-                
-                res.render("users/login",{ //add customers
-                        title : "login",
-                        headingInfo: "Login",                        
-                        successMessage : ``
-                       
-                });
-        }
+router.get("/logout",(req,res)=>{
+       req.session.destroy();
+        res.redirect("/users/login");            
 });
 
 module.exports=router;

@@ -3,6 +3,7 @@ const exphbs= require("express-handlebars");
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const fileUpload = require('express-fileupload');
+const session = require('express-session');
 
 require('dotenv').config({path:"./config/keys.env"}); //load environment variable file
 
@@ -35,6 +36,18 @@ app.use((req,res,next)=>{
     next();
 })
 app.use(fileUpload());
+
+
+app.use(session({
+    secret: `${process.env.secret_key}`,
+    resave: false,
+    saveUninitialized: true    
+}))
+app.use((req,res,next)=>{
+   res.locals.user=req.session.userInfo;
+   next();
+})
+
 
 app.use("/",generalController);
 app.use("/products",productController);
