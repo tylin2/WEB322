@@ -226,19 +226,20 @@ router.get("/list",isLoggedIn,(req,res)=>{
 router.get("/edit/:id",isLoggedIn,(req,res)=>{
     //params.id: id is come from :id
     productModel.findById(req.params.id)
-    .then((product)=>{
+    .then((product)=>{        
         const {_id,Name,Price,Category,ReleasedDate,Players,BestSeller,productPic}=product;
+        var date=moment(ReleasedDate).format("YYYY-MM-DD");
         res.render("products/editForm",{
             title:"Edit Product",
             headingInfo: "Edit Product",
-            _id,Name,Price,Category,ReleasedDate,Players,BestSeller,productPic            
+            _id,Name,Price,Category,ReleasedDate,Players,BestSeller,productPic,date            
         })
     })
     .catch(err=>console.log(`Error happened when editing for the database: ${err}`));
     
 })
 
-router.put("/edit/:id",isLoggedIn,(req,res)=>{
+router.put("/edit/:id",isLoggedIn,(req,res)=>{    
     const product={
         //body.nameOfSchma
         Name:req.body.Name,
