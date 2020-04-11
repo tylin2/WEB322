@@ -1,23 +1,37 @@
 const express = require('express')
 const router = express.Router();
-const productModel2 = require("../model/product");
 const productModel = require("../model/products");
 const path=require("path");
 const isLoggedIn = require("../middleware/auth");
+const moment=require('moment');
 
 //because product already wrote in app.use("/products",productController);
 //we just wrote / here
 router.get("/",(req,res)=>{
-
-    res.render("products/products",{ //add products
-        title:"Products",
-        headingInfo: "Products",
-        products :productModel2.getAllProducts()
-    });
+    productModel.find()
+    .then((products)=>{
+        //forEach does not return an array(filterProducts)
+        const filterProducts=products.map(product=>{
+            return{
+                id:product._id,
+                Name:product.Name,
+                Price:product.Price,
+                Category:product.Category,
+                BestSeller:product.BestSeller,
+                productPic:product.productPic                
+            }
+        });
+        res.render("products/products",{ 
+            title:"Products",
+            headingInfo: "Products",
+            products:filterProducts                   
+        })
+    })
+    .catch(err=>console.log(`Error happened when pulling from the database: ${err}`));  
 
 });
 
-router.get("/add",(req,res)=>{
+router.get("/add",isLoggedIn,(req,res)=>{
     res.render("products/addForm",{ //add products
         title:"Add Product",
         headingInfo: "Add Product"        
@@ -73,7 +87,8 @@ router.post("/add",isLoggedIn,(req,res)=>{
                 Price : req.body.Price,
                 Category : req.body.Category,
                 ReleasedDate : req.body.ReleasedDate,
-                Players : req.body.Players
+                Players : req.body.Players,
+                createBy: req.session.userInfo.email
             }
             const product = new productModel(newProduct);
             product.save()
@@ -94,7 +109,7 @@ router.post("/add",isLoggedIn,(req,res)=>{
 });
 
 router.get("/list",isLoggedIn,(req,res)=>{
-    productModel.find()
+    productModel.find({createBy:req.session.userInfo.email})
     .then((products)=>{
         //forEach does not return an array(filterProducts)
         const filterProducts=products.map(product=>{
@@ -103,6 +118,7 @@ router.get("/list",isLoggedIn,(req,res)=>{
                 Name:product.Name,
                 Price:product.Price,
                 Category:product.Category,
+                ReleasedDate:product.ReleasedDate,
                 BestSeller:product.BestSeller                
             }
         });
@@ -154,6 +170,21 @@ router.delete("/delete/:id",isLoggedIn,(req,res)=>{
         res.redirect("/products/list");
     })
     .catch(err=>console.log(`Error happened when updating data from the database :${err}`));
+})
+
+router.get("/:id",(req,res)=>{    
+    productModel.findOne({_id:req.params.id})
+    .then((product)=>{        
+        const {_id,Name,Price,Category,ReleasedDate,Players,BestSeller,productPic}=product;
+        var date=moment(ReleasedDate).format('L');
+        res.render("products/productDetail",{
+            title:req.body.Name,
+            headingInfo: "Product",
+            _id,Name,Price,Category,date,Players,BestSeller,productPic            
+        })
+    })
+    .catch(err=>console.log(`Error happened when showing for the database: ${err}`));
+    
 })
 
 module.exports=router;

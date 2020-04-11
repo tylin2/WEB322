@@ -33,10 +33,11 @@ var productSchema = new Schema({
   dateCreate:{
     type:Date,
     default:Date.now()      
+  },
+  createBy:{
+    type:String
   }
-  //createBy:{ }
 });
 
 const productModel = mongoose.model('products', productSchema);
-
 module.exports = productModel;
