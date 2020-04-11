@@ -27,16 +27,12 @@
 <br>
 <div class="BestSeller">
     Best Seller<br><br>
-    <div class="BestSellerPicture">
-        <img src='/img/0.png' alt="Advertrue">        
-    </div>
-    <div class="BestSellerPicture">
-        <img src='/img/1.png' alt="Party">        
-    </div>
-    <div class="BestSellerPicture">
-        <img src='/img/3.png' alt="Racing">        
-    </div>
-    <div class="BestSellerPicture">
-        <img src='/img/9.png' alt="Sport">        
-    </div>
+    {{#each data}}
+        <div class="BestSellerPicture">
+            <a href="/products/{{this.id}}">
+                <img src="/uploads/{{productPic}}" alt="{{this.Name}}" >
+            </a>
+        </div>
+    {{/each}}    
+    
 </div>

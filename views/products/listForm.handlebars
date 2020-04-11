@@ -1,21 +1,6 @@
 <h2>List of Products</h2>
  
- <section class="list-of-products">   
-
-    <!--  <form method="POST" action="/task/search">
-        <label>Search By</label>
-        <select name="task-search">
-                <option value="all">All tasks</option>
-                <option value="open">Open Tasks</option>
-                <option value="on-hold">On Hold Tasks</option>
-                <option value="closed">Closed Tasks</option>
-                <option value="pending">Pending Tasks</option>
-                <option value="low-priority">Low Priority</option>
-                <option value="medium-priority">Meidum Priority</option>
-                <option value="high-priority">High Priority</option>
-        </select>
-        <input type="submit" value="Search">
-     </form> <br><br>-->
+ <section class="list-of-products">    
 
     <table border="1" style="text-align: center;">
         <thead>
@@ -29,7 +14,7 @@
             {{#each data}}
                 <tr>
                    <td>
-                        <a href="" class="product-Name">{{this.Name}}</a>
+                        <a href="/products/{{this.id}}" class="product-Name">{{this.Name}}</a>
                    </td>
                    <td>
                        <span>{{this.Price}}</span>

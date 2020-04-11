@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router();
 const productModel = require("../model/products");
-const path=require("path");
 const isLoggedIn = require("../middleware/auth");
 const moment=require('moment');
+const path=require("path");
 
 //because product already wrote in app.use("/products",productController);
 //we just wrote / here
@@ -186,4 +186,5 @@ router.get("/:id",(req,res)=>{
     .catch(err=>console.log(`Error happened when showing for the database: ${err}`));
     
 })
+
 module.exports=router;
