@@ -31,6 +31,98 @@ router.get("/",(req,res)=>{
 
 });
 
+router.get("/Adventure",(req,res)=>{
+    productModel.find({Category:"Adventure"})
+    .then((products)=>{       
+        const filterProducts=products.map(product=>{
+            return{
+                id:product._id,
+                Name:product.Name,
+                Price:product.Price,
+                Category:product.Category,
+                BestSeller:product.BestSeller,
+                productPic:product.productPic                
+            }
+        });
+        res.render("products/products",{ 
+            title:"Products",
+            headingInfo: "Products",
+            products:filterProducts                   
+        })
+    })
+    .catch(err=>console.log(`Error happened when filterin from the database: ${err}`));  
+
+});
+
+router.get("/Racing",(req,res)=>{
+    productModel.find({Category:"Racing"})
+    .then((products)=>{       
+        const filterProducts=products.map(product=>{
+            return{
+                id:product._id,
+                Name:product.Name,
+                Price:product.Price,
+                Category:product.Category,
+                BestSeller:product.BestSeller,
+                productPic:product.productPic                
+            }
+        });
+        res.render("products/products",{ 
+            title:"Products",
+            headingInfo: "Products",
+            products:filterProducts                   
+        })
+    })
+    .catch(err=>console.log(`Error happened when filterin from the database: ${err}`));  
+
+});
+
+router.get("/Sports",(req,res)=>{
+    productModel.find({Category:"Sports"})
+    .then((products)=>{       
+        const filterProducts=products.map(product=>{
+            return{
+                id:product._id,
+                Name:product.Name,
+                Price:product.Price,
+                Category:product.Category,
+                BestSeller:product.BestSeller,
+                productPic:product.productPic                
+            }
+        });
+        res.render("products/products",{ 
+            title:"Products",
+            headingInfo: "Products",
+            products:filterProducts                   
+        })
+    })
+    .catch(err=>console.log(`Error happened when filterin from the database: ${err}`));  
+
+});
+
+router.get("/Party",(req,res)=>{
+    productModel.find({Category:"Party"})
+    .then((products)=>{       
+        const filterProducts=products.map(product=>{
+            return{
+                id:product._id,
+                Name:product.Name,
+                Price:product.Price,
+                Category:product.Category,
+                BestSeller:product.BestSeller,
+                productPic:product.productPic                
+            }
+        });
+        res.render("products/products",{ 
+            title:"Products",
+            headingInfo: "Products",
+            products:filterProducts                   
+        })
+    })
+    .catch(err=>console.log(`Error happened when filterin from the database: ${err}`));  
+
+});
+
 router.get("/add",isLoggedIn,(req,res)=>{
     res.render("products/addForm",{ //add products
         title:"Add Product",
@@ -186,5 +278,4 @@ router.get("/:id",(req,res)=>{
     .catch(err=>console.log(`Error happened when showing for the database: ${err}`));
     
 })
-
 module.exports=router;
