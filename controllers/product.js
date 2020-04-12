@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router();
 const productModel = require("../model/products");
 const isLoggedIn = require("../middleware/auth");
+const isAdmin = require("../middleware/admit");
 const moment=require('moment');
 const path=require("path");
 
@@ -161,6 +162,18 @@ router.post("/add",isLoggedIn,(req,res)=>{
             }
         }
 
+        if(req.body.description =="")  {                            
+            errorMessages.push("! Enter Product's description");
+        }
+
+        if(req.body.Quantity=="")  {                            
+            errorMessages.push("! Enter Product's Quantity");
+        }else{
+            if(req.body.Quantitys<=0)  {                
+                errorMessages.push("! Enter the Correct Product's Quantity");
+            }
+        }
+
         if(errorMessages.length > 0 )  {                
             res.render("products/addForm",{ 
                 title:"Add Product",
@@ -170,7 +183,9 @@ router.post("/add",isLoggedIn,(req,res)=>{
                 Price : req.body.Price,
                 Category : req.body.Category,
                 ReleasedDate : req.body.ReleasedDate,
-                Players : req.body.Players               
+                Players : req.body.Players,
+                Quantity: req.body.Quantity,
+                description: req.body.description               
             });
 
         }else{
@@ -180,6 +195,8 @@ router.post("/add",isLoggedIn,(req,res)=>{
                 Category : req.body.Category,
                 ReleasedDate : req.body.ReleasedDate,
                 Players : req.body.Players,
+                Quantity: req.body.Quantity,
+                description: req.body.description,
                 createBy: req.session.userInfo.email
             }
             const product = new productModel(newProduct);
@@ -200,7 +217,7 @@ router.post("/add",isLoggedIn,(req,res)=>{
         }
 });
 
-router.get("/list",isLoggedIn,(req,res)=>{
+router.get("/list",isLoggedIn,(req,res)=>{    
     productModel.find({createBy:req.session.userInfo.email})
     .then((products)=>{
         //forEach does not return an array(filterProducts)
@@ -223,16 +240,15 @@ router.get("/list",isLoggedIn,(req,res)=>{
     .catch(err=>console.log(`Error happened when pulling from the database: ${err}`));    
 })
 
-router.get("/edit/:id",isLoggedIn,(req,res)=>{
-    //params.id: id is come from :id
+router.get("/edit/:id",isLoggedIn,(req,res)=>{    
     productModel.findById(req.params.id)
     .then((product)=>{        
-        const {_id,Name,Price,Category,ReleasedDate,Players,BestSeller,productPic}=product;
+        const {_id,Name,Price,Category,ReleasedDate,Players,BestSeller,productPic,description,Quantity}=product;
         var date=moment(ReleasedDate).format("YYYY-MM-DD");
         res.render("products/editForm",{
             title:"Edit Product",
             headingInfo: "Edit Product",
-            _id,Name,Price,Category,ReleasedDate,Players,BestSeller,productPic,date            
+            _id,Name,Price,Category,ReleasedDate,Players,BestSeller,productPic,date,description,Quantity            
         })
     })
     .catch(err=>console.log(`Error happened when editing for the database: ${err}`));
@@ -247,11 +263,18 @@ router.put("/edit/:id",isLoggedIn,(req,res)=>{
         Category:req.body.Category,
         BestSeller:req.body.BestSeller,
         ReleasedDate:req.body.ReleasedDate,
+        Quantity: req.body.Quantity,
+        description: req.body.description,
         Players:req.body.Players
     }
     productModel.updateOne({_id:req.params.id},product)
     .then(()=>{
-       res.redirect("/products/list"); 
+        if(req.session.userInfo.type=="Admin"){
+            res.redirect("/products/AdminList");
+        }else{
+            res.redirect("/products/list"); 
+        }        
+       
     })
     .catch(err=>console.log(`Error happened when updating for the database: ${err}`)); 
     
@@ -265,15 +288,38 @@ router.delete("/delete/:id",isLoggedIn,(req,res)=>{
     .catch(err=>console.log(`Error happened when updating data from the database :${err}`));
 })
 
+router.get("/AdminList",isAdmin,(req,res)=>{
+    productModel.find()
+    .then((products)=>{        
+        const filterProducts=products.map(product=>{
+            return{
+                id:product._id,
+                Name:product.Name,
+                Price:product.Price,
+                Category:product.Category,
+                ReleasedDate:product.ReleasedDate,
+                BestSeller:product.BestSeller,
+                createBy:product.createBy                
+            }
+        });
+        res.render("products/adminList",{ 
+            title:"AdminAccount",
+            headingInfo: "AdminAccount",
+            data:filterProducts                   
+        })
+    })
+    .catch(err=>console.log(`Error happened when pulling from the database: ${err}`));    
+})
+
 router.get("/:id",(req,res)=>{    
     productModel.findOne({_id:req.params.id})
     .then((product)=>{        
-        const {_id,Name,Price,Category,ReleasedDate,Players,BestSeller,productPic}=product;
+        const {_id,Name,Price,Category,ReleasedDate,Players,BestSeller,productPic,description,Quantity}=product;
         var date=moment(ReleasedDate).format('L');
         res.render("products/productDetail",{
             title:req.body.Name,
             headingInfo: "Product",
-            _id,Name,Price,Category,date,Players,BestSeller,productPic            
+            _id,Name,Price,Category,date,Players,BestSeller,productPic,description,Quantity            
         })
     })
     .catch(err=>console.log(`Error happened when showing for the database: ${err}`));

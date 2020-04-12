@@ -1,14 +1,20 @@
     
     
-    <h2>{{Name}}</h2>
-        <div class="productDetial">
-            <img src="/uploads/{{productPic}}" alt="{{Name}}" width="300" height="420">   
-            <p>Category: {{Category}}</p><br>
-            <p>Released Date: {{date}}</p><br>            
-            <p id="price">
-                CDN$ {{Price}}
-            </p><br>
-            <p>Players: Up to {{Players}} player(s)</p><br
-                        
-        </div>
+        <h2>{{Name}}</h2>
+        <p>{{description}}</p>
+            <div class="eachProduct">
+                <img src="/uploads/{{productPic}}" alt="{{Name}}" width="300" height="420" class="eachProduct-pic">                  
+                <p class="eachProduct-text">Category: {{Category}} <br>
+                    Released Date: {{date}} <br>                    
+                    CDN$ {{Price}}<br>                   
+                    Players: Up to {{Players}} player(s)<br>
+                    Quantity: {{Quantity}}<br><br>
+                    {{#if user}}
+                        <button onclick="">Add into Cart</button>
+                    {{/if}} 
+                </p><br>                        
+                    
+            </div>
+            
+   
    

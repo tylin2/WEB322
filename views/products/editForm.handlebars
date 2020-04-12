@@ -22,12 +22,17 @@
             <option value="false" selected>False</option>            
         </select> <br><br>
 
-        <label>Released Date: </label>
-        {{!to be fixed}}        
-        <input type="date" name="ReleasedDate" id="ReleasedDate" value={{date}}>        
+        <label>Released Date: </label>                
+        <input type="date" name="ReleasedDate" id="ReleasedDate" value={{date}}> <br><br>       
 
         <label>Max Players: </label>
         <input type="number" name="Players" id="Players" value={{Players}}> <br><br>
+
+        <label>Quantity: </label>
+        <input type="number" name="Quantity" id="Quantity" value={{Quantity}}> <br><br>
+
+        <label>Description: </label>
+        <textarea name="description" id="description" rows="4" cols="50">{{description}}</textarea> <br><br>
 
         <img src="/uploads/{{productPic}}" width="200" height="280"> <br><br>
 

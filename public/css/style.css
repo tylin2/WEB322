@@ -83,20 +83,38 @@ footer
     font-size: 15px;
 }
 .products{    
-    padding-left: 15%;
-    float: left;
-    grid-template-rows: auto 1fr auto;
-     
+    padding-left: 15%;    
 }
 
-.allproducts{
-    float: left;
+.allproducts{    
     border-style: groove;            
-    width: 32%;
-    height: 12%;      
-              
+    width: 400px;
+    height: 150px;        
+    float: left;          
+}
+.allproducts-pic{   
+    float: left;  
+    margin-left: 5px;
+    margin-top: 4px;    
+}
+.allproducts-text{
+    list-style-type: none;
+    float: left;
+    margin-top: 4px;
+    margin-left: 5px;
+    word-break: break-all;
+       
+}
+.eachProduct-pic{
+    float: left;
+    margin-top: 10px;
 }
 
+.eachProduct .eachProduct-text {
+    float: left;
+    margin-top: 4px;
+    margin-left: 20px;
+}
 
 .Promotional{
     background-color:#fff;

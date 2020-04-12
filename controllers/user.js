@@ -1,9 +1,11 @@
 const express = require('express')
 const router = express.Router();
 const userModel = require("../model/users");
-const bcrypt = require("bcryptjs");
 const isLoggedIn = require("../middleware/auth");
 const AccountLoader = require("../middleware/authorization");
+const isAdmin = require("../middleware/admit");
+const moment=require('moment');
+const bcrypt = require("bcryptjs");
 
 router.get("/registration",(req,res)=>{
 
@@ -17,7 +19,7 @@ router.get("/registration",(req,res)=>{
 //add new app.post
 router.post("/registration",(req,res)=>{
         
-    const errorMessages = [];
+    const errorMessages = [];    
         
         if(req.body.fullName=="")  {                            
                 errorMessages.push("! Enter Your Name");
@@ -25,6 +27,17 @@ router.post("/registration",(req,res)=>{
 
         if(req.body.email=="")  {                
                 errorMessages.push("! Enter Your email");
+        } else {
+                userModel.findOne({email:req.body.email})
+                .then((user)=>{                       
+                        if(user==null||user=='undefined'){
+                                
+                        }else{
+                                                         
+                        }                                                                                                       
+                })                 
+                .catch(err=>console.log(`Error happened when adding for the database: ${err}`));   
+                                  
         }
 
         if(req.body.password=="")   {
@@ -37,7 +50,7 @@ router.post("/registration",(req,res)=>{
 
         if(req.body.password!=req.body.password2)  {
                 errorMessages.push("! Passwords are not match");
-        }
+        }        
        
         if(errorMessages.length > 0 )  {                
             res.render("users/registration",{ 
@@ -138,5 +151,27 @@ router.get("/logout",(req,res)=>{
        req.session.destroy();
         res.redirect("/users/login");            
 });
+
+router.get("/AdminList",isAdmin,(req,res)=>{
+       userModel.find()
+        .then((Users)=>{            
+            const filterUsers=Users.map(User=>{
+                var date=moment(User.dateCreate).format("YYYY-MM-DD");
+                return{                        
+                    id:User._id,
+                    fullName:User.fullName,
+                    email:User.email,
+                    type:User.type,
+                    dateCreate:date                                   
+                }
+            });
+            res.render("users/userList",{ 
+                title:"AdminAccount",
+                headingInfo: "UsersList",
+                data:filterUsers                   
+            })
+        })
+        .catch(err=>console.log(`Error happened when pulling from the database: ${err}`));    
+    })
 
 module.exports=router;

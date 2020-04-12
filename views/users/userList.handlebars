@@ -1,0 +1,39 @@
+<h2>List of Users</h2>
+ 
+ <section class="list-of-Users">    
+
+    <table border="1" style="text-align: center;">
+        <thead>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Type</th>
+                <th>Date Create</th>                                                                
+        </thead>
+        <tbody>
+            {{#each data}}
+                <tr>
+                   <td>
+                       <span>{{this.fullName}}</span>                        
+                   </td>
+                   <td>
+                       <span>{{this.email}}</span>
+                      
+                   </td>
+                   <td>
+                        <span>{{this.type}}</span>
+                   </td>
+                   <td>
+                       <span>{{this.dateCreate}}</span>
+                   </td>                   
+                </tr>
+
+                {{else}}
+                    <td colspan="5">
+                        <p>No tasks in the database</p>
+                    </td>
+
+                {{/each}}
+    </tbody>
+    </table>
+ 
+</section>

@@ -36,6 +36,14 @@ var productSchema = new Schema({
   },
   createBy:{
     type:String
+  },
+  description:{
+    type:String,
+    required:true
+  },
+  Quantity:{
+    type:Number,
+    required:true
   }
 });
 
