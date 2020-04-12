@@ -17,15 +17,13 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static("public"));
 
-app.engine("handlebars",exphbs(
-    /*{
-        helpers:{
-            if_eq:function(){
-
-            }
+app.engine("handlebars",exphbs({
+    helpers:{
+        if_eq:function(value1,value2){
+            return (value1 == value2);
         }
-    }*/
-));
+    }
+}));
 app.set("view engine", "handlebars");
 app.use((req,res,next)=>{
     if(req.query.method=="PUT"){

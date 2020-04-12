@@ -1,10 +1,12 @@
-<section class="products">
-    <div id='Category'>
-        <a href="/products/Adventure">Adventure</a> <br>
-        <a href="/products/Party">Party</a> <br>       
-        <a href="/products/Racing">Racing</a> <br> 
-        <a href="/products/Sports">Sports</a> <br>        
-    </div>
+<section class="products">    
+    <select name="Category" onChange="location = this.options[this.selectedIndex].value;">  
+            <option value="" selected></option>
+            <option value="/products">All</option>           
+            <option value="/products/Adventure">Adventure</option>
+            <option value="/products/Party">Party</option>
+            <option value="/products/Racing">Racing</option>
+            <option value="/products/Sports">Sports</option>            
+    </select> <br><br>    
     {{#each products}}
         <div class="allproducts">
             <a href="/products/{{this.id}}" class="allproducts-pic">

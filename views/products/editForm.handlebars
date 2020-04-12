@@ -8,12 +8,11 @@
 
         <label>Category: </label>
         <select name="Category">
-            {{!to be fixed}}  
-            {{!{{#if_eq Category}}{{!selected{{/if}}                       
-            <option value="Adventure">Adventure</option>
-            <option value="Party">Party</option>
-            <option value="Racing">Racing</option>
-            <option value="Sports">Sports</option>            
+            {{!to be fixed}}                                  
+            <option value="Adventure" {{#if_eq Category "Adventure"}}selected{{/if_eq}}>Adventure</option>
+            <option value="Party" {{#if_eq Category "Party")}}selected{{/if_eq}}>Party</option>
+            <option value="Racing" {{#if_eq Categor "Racing"}}selected{{/if_eq}}>Racing</option>
+            <option value="Sports" {{#if_eq Category "Sports"}}selected{{/if_eq}}>Sports</option>            
         </select> <br><br>
 
         <label>Best Seller: </label> 
