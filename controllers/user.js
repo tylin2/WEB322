@@ -23,21 +23,13 @@ router.post("/registration",(req,res)=>{
         
         if(req.body.fullName=="")  {                            
                 errorMessages.push("! Enter Your Name");
-        }
+        }        
 
         if(req.body.email=="")  {                
                 errorMessages.push("! Enter Your email");
         } else {
-                userModel.findOne({email:req.body.email})
-                .then((user)=>{                       
-                        if(user==null||user=='undefined'){
-                                
-                        }else{
-                                                         
-                        }                                                                                                       
-                })                 
-                .catch(err=>console.log(`Error happened when adding for the database: ${err}`));   
-                                  
+                
+                                 
         }
 
         if(req.body.password=="")   {
@@ -64,41 +56,59 @@ router.post("/registration",(req,res)=>{
                 });
 
         }else{
-                const {fullName, email}=req.body;
-                const sgMail = require('@sendgrid/mail');
-                sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
-                const welcome = {
-                  to: `${email}`,
-                  from: `s88432000@gmail.com`,
-                  subject: `Welcome! Confirm Your Email`,
-                  html: 
-                  `Thanks for signing up! ${fullName} <br> 
-                   Your username is ${email}.<br>
-                  `,
-                };
-                sgMail.send(welcome)
-                .then(()=>{
-                        res.redirect("/");
-                })
-                .catch(err=>{
-                        console.log(`Error ${err}`)
-                })
                 
-                const newUser = {
-                        fullName:req.body.fullName,
-                        email:req.body.email,
-                        password:req.body.password
-                }
-
-                const user = new userModel(newUser);
-                user.save()                
-                .then(()=>{
-                        res.redirect("/users/myAccount");          
-                })           
-                .catch(err=>console.log(`Error happened when inserting in the database: ${err}`));                
-        }
-
-   
+                        userModel.findOne({email:req.body.email})
+                        .then((user)=>{
+                                const errors=[];                       
+                                if(user==null||user=='undefined'){
+                                        const {fullName, email}=req.body;
+                                        const sgMail = require('@sendgrid/mail');
+                                        sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
+                                        const welcome = {
+                                        to: `${email}`,
+                                        from: `s88432000@gmail.com`,
+                                        subject: `Welcome! Confirm Your Email`,
+                                        html: 
+                                        `Thanks for signing up! ${fullName} <br> 
+                                        Your username is ${email}.<br>
+                                        `,
+                                        };
+                                        sgMail.send(welcome)
+                                        .then(()=>{
+                                                res.redirect("/");
+                                        })
+                                        .catch(err=>{
+                                                console.log(`Error ${err}`)
+                                        })
+                                        
+                                        const newUser = {
+                                                fullName:req.body.fullName,
+                                                email:req.body.email,
+                                                password:req.body.password
+                                        }
+                
+                                        const user = new userModel(newUser);
+                                        user.save()                
+                                        .then(()=>{
+                                                res.redirect("/users/myAccount");          
+                                        })           
+                                        .catch(err=>console.log(`Error happened when inserting in the database: ${err}`));  
+                                }else{
+                                        errors.push("! Email is existing")
+                                        res.render("users/registration",{ 
+                                                title : "registration",
+                                                headingInfo: "Registration",                        
+                                                errors : errors,
+                                                fullName:req.body.fullName,
+                                                email:req.body.email,
+                                                password:req.body.password,
+                                                password2:req.body.password2               
+                                        });                               
+                                }                                                                                                       
+                        })                 
+                        .catch(err=>console.log(`Error happened when adding for the database: ${err}`));                
+                               
+        }  
 
 });
 
