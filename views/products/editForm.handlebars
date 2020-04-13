@@ -7,18 +7,17 @@
         <input type="number" name="Price" id="Price"  step="0.01" value={{Price}}> <br><br>
 
         <label>Category: </label>
-        <select name="Category">
-            {{!to be fixed}}                                  
-            <option value="Adventure" {{#if_eq Category "Adventure"}}selected{{/if_eq}}>Adventure</option>
-            <option value="Party" {{#if_eq Category "Party")}}selected{{/if_eq}}>Party</option>
-            <option value="Racing" {{#if_eq Categor "Racing"}}selected{{/if_eq}}>Racing</option>
-            <option value="Sports" {{#if_eq Category "Sports"}}selected{{/if_eq}}>Sports</option>            
+        <select name="Category">                                 
+            <option value="Adventure" {{#if (eq Category "Party")}}selected{{/if}}>Adventure</option>
+            <option value="Party" {{#if (eq Category "Party")}}selected{{/if}}>Party</option>
+            <option value="Racing" {{#if (eq Category "Racing")}}selected{{/if}}>Racing</option>
+            <option value="Sports" {{#if (eq Category "Sports")}}selected{{/if}}>Sports</option>            
         </select> <br><br>
 
         <label>Best Seller: </label> 
         <select name="BestSeller">
-            <option value="true">True</option>
-            <option value="false" selected>False</option>            
+            <option value="true" {{#if BestSeller}}selected{{/if}}>True</option>
+            <option value="false" {{#unless BestSeller}}selected{{/unless}}>False</option>            
         </select> <br><br>
 
         <label>Released Date: </label>                
