@@ -228,7 +228,8 @@ router.get("/list",isLoggedIn,(req,res)=>{
                 Price:product.Price,
                 Category:product.Category,
                 ReleasedDate:product.ReleasedDate,
-                BestSeller:product.BestSeller                
+                BestSeller:product.BestSeller,
+                productPic:product.productPic                
             }
         });
         res.render("products/listForm",{ 

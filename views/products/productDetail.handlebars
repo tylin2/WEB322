@@ -7,11 +7,19 @@
                     Released Date: {{date}} <br>                    
                     CDN$ {{Price}}<br>                   
                     Players: Up to {{Players}} player(s)<br>
-                    Quantity: {{Quantity}}<br><br>
-                    {{#if user}}
-                        <button onclick="">Add into Cart</button><br><br>
-                    {{/if}}                     
-                </p><br> <br> <br>  <br> <br> <br> <br> <br> <br>                   
+                    In stock: {{Quantity}}     
+                </p>
+                <br> <br> <br>  <br> <br>                 
+                {{#if user}}
+                <section>                    
+                    <form method="POST" action="" id="order">
+                        Quantity:
+                        <input type="number" name="Quantity" id="Quantity" max="{{Quantity}}"> <br>
+                        <input type="submit" value="Add to cart">
+                    </form>
+                </section>                                             
+                {{/if}}            
+                 <br>                  
                 <div class="eachProduct-des">{{description}}</div>    
             </div>
            

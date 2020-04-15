@@ -1,48 +1,45 @@
 <h2>List of Products</h2>
- 
- <section class="list-of-products">    
-
-    <table border="1" style="text-align: center;">
-        <thead>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Category</th>
-                <th>Best Seller</th>
-                <th>Operation</th>                                
-        </thead>
-        <tbody>
+<br>
+<div class="edit-delete-button">
+    <a href="/products/add" class="edit-delete-button">Add a Product</a>
+</div>
+<br>           
+        
             {{#each data}}
+            <table id="list-of-product">
                 <tr>
-                   <td>
-                        <a href="/products/{{this.id}}" class="product-Name">{{this.Name}}</a>
-                   </td>
-                   <td>
-                       <span>{{this.Price}}</span>
-                      
-                   </td>
-                   <td>
-                        <span>{{this.Category}}</span>
-                   </td>
-                   <td>
-                       <span>{{this.BestSeller}}</span>
-                   </td>
-                   <td>
-                        <a href="/products/edit/{{this.id}}" class="edit-delete-button">Edit</a>
-                        <a href="/products/delete/{{this.id}}?method=DELETE" class="edit-delete-button">Delete</a>
-                   </td> 
+                   <td rowspan='5' id="pic">
+                       <a href="/products/{{this.id}}"><img src="/uploads/{{productPic}}" width="120" height="168"></a>                        
+                   </td>                   
                 </tr>
+                <tr>
+                    <td><a href="/products/{{this.id}}" id="name">      {{this.Name}}</a></td>
+                    <td rowspan='2' class="bottom"><a href="/products/edit/{{this.id}}" class="edit-delete-button">Edit</a></td>
+                </tr>
+                <tr>
+                    <td id="other">      Category: {{this.Category}}</td>
+                </tr>
+                <tr>
+                    <td id="other">      Best Seller:　{{this.BestSeller}}</td>
+                    <td rowspan="2" class="bottom"><a href="/products/delete/{{this.id}}?method=DELETE" class="edit-delete-button">Delete</a></td>
+                </tr>
+                <tr>
+                    <td id="cdn">
+                             CDN$  <mark id=price>{{this.Price}}</mark>                      
+                   </td>
+                </tr>                
+            </table> <br>               
 
                 {{else}}
-                    <td colspan="5">
-                        <p>No tasks in the database</p>
-                    </td>
-
-                {{/each}}
-    </tbody>
-    </table>
+                <table id="list-products">
+                    <tr>
+                        <td colspan="3">
+                            <p>No product sales!!</p>
+                        </td>
+                    </tr>
+                </table>        
+            {{/each}}
+    
+    
  
-</section>
 
-<div id="products-links-holder">
-    <a href="/products/add">Add a Product</a>
-</div>

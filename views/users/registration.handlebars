@@ -2,6 +2,7 @@
 <!--This will only show if the successMessage was injected into the view -->
 <div>{{successMessage}}</div>
     <form action="/users/registration" method="POST"> <!--CHANGE GET TO POST -->
+        <h2>{{headingInfo}}</h2>
 
         <label for="fullName">Full Name: </label>
         <input type="text" id="fullName" name="fullName" value={{fullName}}> <br><br>        

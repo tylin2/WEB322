@@ -13,7 +13,7 @@ body
     display: grid;
     grid-template-rows: auto 1fr auto;
     min-height: 100vh;
-    background-color: #eee;
+    background-color: #DDDDDD;
 }
 
 h1,h2,h3
@@ -30,6 +30,11 @@ main
 {
     padding:16px 32px;
 }
+.home:link, .home:visited{
+    color:#eee;    
+    text-decoration: none;
+}
+
 header
 {
     background-color: #217272;
@@ -87,12 +92,14 @@ footer
 
 .allproducts{    
     border-style: groove;
+    border-color: #BAD8E6;
     border-spacing: 15px 50px;            
     width: 400px;
     height: 150px;        
     float: left;
     padding: 5px;
-    white-space:normal;          
+    white-space:normal;
+    background-color:#DCF8FB;         
 }
 .allproducts-pic{   
     float: left;  
@@ -108,6 +115,13 @@ footer
     word-break: break-all;
        
 }
+.product-Name:link, .product-Name:visited{
+    color:#046C97;
+    border: #046C97 ;
+    text-decoration: none;
+    
+}
+
 .eachProduct-pic{
     float: left;
     margin-top: 10px;
@@ -125,14 +139,22 @@ footer
     margin-left: 100px;
 }
 
+#order{
+    padding: 12px 10px; 
+    margin-left: 300px;
+    margin-right: 800px;
+    border: none;
+    text-align: left;   
+}
+
 .Promotional{
-    background-color:#fff;
-    color: #48043B;
+    background-color:#DDDDDD;
+    color: #046C97;
     font-family:'Arial, Helvetica, sans-serif';
     font-weight: bold; 
 }
 .promotionalpicture{
-    background-color:#fff;
+    background-color:#DDDDDD;
     width: 100%;
 }
 .promotionalpicture img{
@@ -140,14 +162,14 @@ footer
 }
 
 .Category{
-    background-color:#fff;
-    color: #48043B;
+    background-color:#DDDDDD;
+    color: #046C97;
     font-family:'Arial, Helvetica, sans-serif';
     font-weight: bold;
     width: 100%;          
 }
 .CategoryPicture{
-    background-color:#fff;
+    background-color:#DDDDDD;
     float: left;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     padding: 41.9px;
@@ -159,15 +181,15 @@ footer
 }
 
 .BestSeller{
-    background-color:#fff;
-    color: #48043B;
+    background-color:#DDDDDD;
+    color: #046C97;
     font-family:'Arial, Helvetica, sans-serif';
     font-weight: bold;
     float: left;
     width: 100%;        
 }
 .BestSellerPicture{
-    background-color:#fff;
+    background-color:#DDDDDD;
     float: left;
     grid-template-columns: 1fr 1fr 1fr 1fr;    
     padding: 5px 100px;
@@ -190,10 +212,66 @@ form div{
     left:20px;
     top:170px;
     font-weight: bold; 
-    color: #702727;
+    color: #046C97;
 }
 
+table#list-of-product{   
+    background-color:#DCF8FB;
+    box-shadow: 3px 3px gainsboro;
+    border-bottom: 7px;
+    width: 1000px;   
+}
 
+#name{
+    
+    font-size: 28px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color:#046C97;    
+    font-weight: bolder;
+}
+#cdn{
+    font-size: 5px;
+    vertical-align: top;
+}
+
+#price{
+    font-size: 15pt;
+    color:#046C97;
+    font-style: italic;
+    background-color:#DCF8FB;
+    font-weight: bold;          
+}
+tr #pic{
+    width: 100px;
+    text-align: center;    
+}
+#other{
+    color: gray;
+    font-style: italic;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 10pt;
+}
+.edit-delete-buttona:hover {
+    background-color:#97C6D0;
+    text-decoration: none;
+    color:#046C97;
+    cursor: auto;background-size: 20px 100px;
+    text-align: center;
+    display:inline-block;    
+  }
+  
+.edit-delete-button:active,.edit-delete-button:link , .edit-delete-button:visited {
+    text-decoration: none;
+    background-color: #046C97;
+    color:#DCF8FB;        
+    text-align: center;
+    margin-right: 10px;
+    padding: 12px 24px;   
+}
+
+.bottom{
+    text-align: right;
+}
 
 @media only screen and (max-width: 375px), only screen and (max-device-width: 768px) {    
     header h1 
