@@ -219,7 +219,7 @@ table#list-of-product{
     background-color:#DCF8FB;
     box-shadow: 3px 3px gainsboro;
     border-bottom: 7px;
-    width: 1000px;   
+    width: 100%;   
 }
 
 #name{
@@ -249,7 +249,7 @@ tr #pic{
     color: gray;
     font-style: italic;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 10pt;
+    font-size: 10px;
 }
 .edit-delete-buttona:hover {
     background-color:#97C6D0;
@@ -298,6 +298,30 @@ tr #pic{
         margin-left: 0px;
         margin-right: 75px;
         border-radius:10px;
+    }
+
+    table#list-of-product{   
+        background-color:#DCF8FB;
+        box-shadow: 3px 3px gainsboro;
+        border-bottom: 7px;
+        width: 100%;   
+    }
+
+    #name{    
+        font-size: 20px;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        color:#046C97;    
+        font-weight: bolder;
+        margin-left: 2px;
+    }
+
+    .edit-delete-button:active,.edit-delete-button:link , .edit-delete-button:visited {
+        text-decoration: none;
+        background-color: #046C97;
+        color:#DCF8FB;        
+        text-align: center;
+        margin-right: 10px;
+        padding: 2px 4px; 
     }
       
 }
