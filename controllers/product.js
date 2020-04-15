@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router();
 const productModel = require("../model/products");
+const cartModel = require("../model/cart");
 const isLoggedIn = require("../middleware/auth");
 const isAdmin = require("../middleware/admit");
 const moment=require('moment');
@@ -241,6 +242,82 @@ router.get("/list",isLoggedIn,(req,res)=>{
     .catch(err=>console.log(`Error happened when pulling from the database: ${err}`));    
 })
 
+router.get("/MyCart",isLoggedIn,(req,res)=>{
+    cartModel.find({createBy:req.session.userInfo.email})
+    .then((products)=>{               
+        const filterProducts=products.map(product=>{
+            return{
+                id:product._id,                
+                productId:product.productId,
+                Name:product.Name,
+                Price:product.Price,                
+                productPic:product.productPic,
+                Quantity:product.Quantity,
+                MAX_Quantity:product.MAX_Quantity,
+                subtotal:product.Price*product.Quantity,                                                                               
+            }
+                                          
+        });
+        
+        res.render("products/cart",{ 
+            title:"MyCart",
+            headingInfo: "MyCart",
+            data:filterProducts                                           
+        })
+        
+    })
+    .catch(err=>console.log(`Error happened when pulling from the database in cart: ${err}`));     
+})
+
+router.post("/MyCart/:id",isLoggedIn,(req,res)=>{
+    productModel.findById(req.params.id)
+    .then((product)=>{        
+        const {_id,Name,Price,productPic,Quantity}=product;        
+        const newProduct = {
+            productId:product._id,
+            Name : product.Name,
+            Price : product.Price,
+            productPic:product.productPic,            
+            Quantity: req.body.Quantity,
+            MAX_Quantity:product.Quantity,           
+            createBy: req.session.userInfo.email            
+        }
+        const cart = new cartModel(newProduct);        
+        cart.save()
+        .then(()=>{
+            res.redirect("/products")
+        })
+        .catch(err=>console.log(`Error happened when inserting in the database in cart:${err}`));        
+    })
+    .catch(err=>console.log(`Error happened when adding for the database in cart: ${err}`));
+       
+})
+
+router.put("/MyCart/edit/:id",isLoggedIn,(req,res)=>{    
+    const product={
+        Quantity:req.body.Quantity
+    }
+    cartModel.updateOne({_id:req.params.id},product)
+    .then(()=>{
+        if(req.session.userInfo.type=="Admin"){
+            res.redirect("/products/AdminList");
+        }else{
+            res.redirect("/products/MyCart"); 
+        }        
+       
+    })
+    .catch(err=>console.log(`Error happened when updating for the database in cart: ${err}`)); 
+    
+})
+
+router.delete("/MyCart/delete/:id",isLoggedIn,(req,res)=>{
+    cartModel.deleteOne({_id:req.params.id})
+    .then(()=>{
+        res.redirect("/products/MyCart");
+    })
+    .catch(err=>console.log(`Error happened when updating data from the database in cart :${err}`));
+})
+
 router.get("/edit/:id",isLoggedIn,(req,res)=>{    
     productModel.findById(req.params.id)
     .then((product)=>{        
@@ -326,4 +403,5 @@ router.get("/:id",(req,res)=>{
     .catch(err=>console.log(`Error happened when showing for the database: ${err}`));
     
 })
+
 module.exports=router;

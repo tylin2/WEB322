@@ -1,0 +1,41 @@
+<h2>Cart</h2><br>           
+        <table id="list-of-product">
+            {{#each data}}            
+                <tr>
+                   <td rowspan='4' id="pic">
+                       <a href="/products/{{productId}}"><img src="/uploads/{{productPic}}" width="120" height="168"></a>                                              
+                   </td>                   
+                </tr>
+                <tr>
+                    <td><a href="/products/{{productId}}" id="name">{{Name}}</a></td>
+                    <td rowspan="4" class="bottom"><a href="/products/MyCart/delete/{{id}}?method=DELETE" class="edit-delete-button">Remove from cart</a></td>                     
+                </tr>
+                <tr>                    
+                    <td>
+                        <form method="POST" action="/products/MyCart/edit/{{id}}?method=PUT" id="edit_quantity">
+                            Quantity: <input type="number" name="Quantity" id="Quantity" max="{{MAX_Quantity}}" value="{{Quantity}}">
+                            <input type="submit" value="Change the Quantity">
+                        </form>
+                    </td>                    
+                </tr>               
+                <tr>
+                    <td id="cdn">
+                             CDN$  <mark id=price>{{Price}}</mark>                      
+                   </td>                   
+                </tr>                
+                               
+            {{else}}
+                    <tr id="nothing">
+                        <td colspan="3">
+                            <p>No product in the cart!!</p>
+                        </td>
+                    </tr> 
+            {{/each}}                              
+        </table> 
+        subtotal: {{add subtotal sum}}             
+
+            
+    
+    
+ 
+

@@ -24,8 +24,11 @@ app.engine("handlebars",exphbs({
                 return true;
             }else{
                 return false;
-            }
-            
+            }            
+        },
+
+        add:function(value1,value2){
+            return value1+value2;
         }
     }
 }));

@@ -273,6 +273,18 @@ tr #pic{
     text-align: right;
 }
 
+#edit_quantity{
+    padding: 2px 1px; 
+    margin-left: 1px;    
+    text-align: left;
+    border: none;
+}
+
+#nothing{
+   background-color: #DDDDDD;
+   border: none;          
+}
+
 @media only screen and (max-width: 375px), only screen and (max-device-width: 768px) {    
     header h1 
     {
