@@ -34,26 +34,26 @@ router.get("/",(req,res)=>{
 });
 
 router.get("/Adventure",(req,res)=>{
-    productModel.find({Category:"Adventure"})
+    productModel.find({Category:`Adventure`})
     .then((products)=>{       
-        const filterProducts=products.map(product=>{
+        const AdventureProducts=products.map(product=>{
             return{
                 id:product._id,
                 Name:product.Name,
                 Price:product.Price,
                 Category:product.Category,
                 BestSeller:product.BestSeller,
-                productPic:product.productPic                
+                productPic:product.productPic,
+                Quantity: product.Quantity,                                
             }
         });
         res.render("products/products",{ 
             title:"Products",
             headingInfo: "Products",
-            products:filterProducts                   
+            products:AdventureProducts                   
         })
     })
-    .catch(err=>console.log(`Error happened when filterin from the database: ${err}`));  
-
+    .catch(err=>console.log(`Error happened when filtering from the database: ${err}`));
 });
 
 router.get("/Racing",(req,res)=>{
@@ -66,7 +66,8 @@ router.get("/Racing",(req,res)=>{
                 Price:product.Price,
                 Category:product.Category,
                 BestSeller:product.BestSeller,
-                productPic:product.productPic                
+                productPic:product.productPic,
+                Quantity: product.Quantity,                
             }
         });
         res.render("products/products",{ 
@@ -89,7 +90,8 @@ router.get("/Sports",(req,res)=>{
                 Price:product.Price,
                 Category:product.Category,
                 BestSeller:product.BestSeller,
-                productPic:product.productPic                
+                productPic:product.productPic,
+                Quantity: product.Quantity,                
             }
         });
         res.render("products/products",{ 
@@ -112,7 +114,8 @@ router.get("/Party",(req,res)=>{
                 Price:product.Price,
                 Category:product.Category,
                 BestSeller:product.BestSeller,
-                productPic:product.productPic                
+                productPic:product.productPic,
+                Quantity: product.Quantity,                
             }
         });
         res.render("products/products",{ 

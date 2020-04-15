@@ -269,6 +269,15 @@ tr #pic{
     padding: 12px 24px;   
 }
 
+input[type=submit].place{
+  background-color: #046C97;
+  border: none;
+  color: #DCF8FB;
+  padding: 12px 24px;
+  text-decoration: none;
+  margin: 4px 2px;
+}
+
 .bottom{
     text-align: right;
 }
@@ -283,6 +292,11 @@ tr #pic{
 #nothing{
    background-color: #DDDDDD;
    border: none;          
+}
+
+#sum{    
+    text-align: right;
+    margin-left: 87%;
 }
 
 @media only screen and (max-width: 375px), only screen and (max-device-width: 768px) {    
