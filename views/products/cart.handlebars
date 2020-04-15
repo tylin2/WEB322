@@ -1,6 +1,7 @@
 <h2>Cart</h2><br>           
-        <table id="list-of-product">
-            {{#each data}}            
+        
+            {{#each data}}
+            <table id="list-of-product">            
                 <tr>
                    <td rowspan='4' id="pic">
                        <a href="/products/{{productId}}"><img src="/uploads/{{productPic}}" width="120" height="168"></a>                                              
@@ -8,7 +9,7 @@
                 </tr>
                 <tr>
                     <td><a href="/products/{{productId}}" id="name">{{Name}}</a></td>
-                    <td rowspan="4" class="bottom"><a href="/products/MyCart/delete/{{id}}?method=DELETE" class="edit-delete-button">Remove from cart</a></td>                     
+                    <td rowspan="4" class="bottom"><a href="/products/MyCart/delete/{{id}}?method=DELETE" class="edit-delete-button">Remove</a></td>                     
                 </tr>
                 <tr>                    
                     <td>
@@ -23,16 +24,41 @@
                              CDN$  <mark id=price>{{Price}}</mark>                      
                    </td>                   
                 </tr>                
-                               
+             </table> <br>                 
             {{else}}
+            <table>
                     <tr id="nothing">
                         <td colspan="3">
                             <p>No product in the cart!!</p>
                         </td>
-                    </tr> 
+                    </tr>
+            </table> 
             {{/each}}                              
-        </table> 
-        subtotal: {{add subtotal sum}}             
+        </table>
+        {{#if subtotal}}
+        <table id="sum">
+            <form method="POST" action="/products/myCart?method=PUT">
+                <tr>
+                    <td><h4>Subtotal: </h4></td>
+                    <td><h4>{{subtotal}}</h4></td>
+                </tr>
+                <tr>
+                    <td><h5>Tax: </h5></td>
+                    <td><h5>{{tax}}</h5></td>
+                </tr>            
+                <tr>
+                    <td><h3>Total:  </h3></td>
+                    <td><h3>{{total}}</h3></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" value="Place your order"></td>
+                </tr>
+            </form>            
+        </table>              
+        {{/if}}
+        
+        
+                  
 
             
     

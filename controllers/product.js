@@ -244,7 +244,7 @@ router.get("/list",isLoggedIn,(req,res)=>{
 
 router.get("/MyCart",isLoggedIn,(req,res)=>{
     cartModel.find({createBy:req.session.userInfo.email})
-    .then((products)=>{               
+    .then((products)=>{                 
         const filterProducts=products.map(product=>{
             return{
                 id:product._id,                
@@ -258,16 +258,81 @@ router.get("/MyCart",isLoggedIn,(req,res)=>{
             }
                                           
         });
-        
+        var sum=0;
+        for(var i=0;i<filterProducts.length;i++){
+            sum=sum+filterProducts[i].subtotal;
+        } 
+        var tax=sum*0.13;
+        var total=sum+tax;       
         res.render("products/cart",{ 
             title:"MyCart",
             headingInfo: "MyCart",
-            data:filterProducts                                           
+            data:filterProducts,
+            subtotal:sum,
+            tax:tax.toFixed(2),
+            total:total.toFixed(2)                                           
         })
+        
         
     })
     .catch(err=>console.log(`Error happened when pulling from the database in cart: ${err}`));     
 })
+
+router.put("/myCart",isLoggedIn,(req,res)=>{    
+    cartModel.find({createBy:req.session.userInfo.email})
+    .then((products)=>{                       
+        const filterProducts=products.map(product=>{
+            return{
+                id:product._id,
+                productId:product.productId,            
+                Name:product.Name,
+                Price:product.Price,         
+                Quantity:product.Quantity,
+                MAX_Quantity:product.MAX_Quantity,                
+                subtotal:product.Price*product.Quantity,                                                                               
+            }                                          
+        });
+        var sum=0;
+        for(var i=0;i<filterProducts.length;i++){
+            sum=sum+filterProducts[i].subtotal;
+        } 
+        var tax=sum*0.13;
+        var total=sum+tax;
+        for(var i=0;i<filterProducts.length;i++){
+            const product={
+                Quantity:filterProducts[i].MAX_Quantity-filterProducts[i].Quantity
+            }
+            productModel.updateOne({_id:filterProducts[i].productId,},product)
+            .then(()=>{})
+            .catch(err=>console.log(`Error happened when updating for the database in cart: ${err}`));
+        }        
+        const sgMail = require('@sendgrid/mail');
+        sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
+        const PlaceOrder = {
+            to: `${req.session.userInfo.email}`,
+            from: `s88432000@gmail.com`,
+            subject: `Thank you for your Order`,
+            html: 
+            `Thank you, ${req.session.userInfo.fullName} <br>`,
+        };
+        sgMail.send(PlaceOrder)
+        .then(()=>{            
+            cartModel.deleteMany({createBy:req.session.userInfo.email})
+            .then(()=>{
+                res.redirect("/");
+            })
+            .catch(err=>console.log(`Error happened when deleting data from the database in cart :${err}`));
+            
+        })
+        .catch(err=>{
+            console.log(`Error ${err}`)
+        })       
+    })
+    .catch(err=>console.log(`Error happened when placing order from the database in cart: ${err}`)); 
+    
+})
+
+
 
 router.post("/MyCart/:id",isLoggedIn,(req,res)=>{
     productModel.findById(req.params.id)

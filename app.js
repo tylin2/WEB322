@@ -25,11 +25,7 @@ app.engine("handlebars",exphbs({
             }else{
                 return false;
             }            
-        },
-
-        add:function(value1,value2){
-            return value1+value2;
-        }
+        }        
     }
 }));
 app.set("view engine", "handlebars");
