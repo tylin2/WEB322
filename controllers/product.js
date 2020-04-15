@@ -11,8 +11,7 @@ const path=require("path");
 //we just wrote / here
 router.get("/",(req,res)=>{
     productModel.find()
-    .then((products)=>{
-        //forEach does not return an array(filterProducts)
+    .then((products)=>{        
         const filterProducts=products.map(product=>{
             return{
                 id:product._id,
@@ -20,7 +19,8 @@ router.get("/",(req,res)=>{
                 Price:product.Price,
                 Category:product.Category,
                 BestSeller:product.BestSeller,
-                productPic:product.productPic                
+                productPic:product.productPic,
+                Quantity:product.Quantity                
             }
         });
         res.render("products/products",{ 
@@ -226,10 +226,9 @@ router.get("/list",isLoggedIn,(req,res)=>{
             return{
                 id:product._id,
                 Name:product.Name,
-                Price:product.Price,
-                Category:product.Category,
-                ReleasedDate:product.ReleasedDate,
+                Price:product.Price,               
                 BestSeller:product.BestSeller,
+                Quantity: product.Quantity,
                 productPic:product.productPic                
             }
         });
@@ -268,7 +267,7 @@ router.get("/MyCart",isLoggedIn,(req,res)=>{
             title:"MyCart",
             headingInfo: "MyCart",
             data:filterProducts,
-            subtotal:sum,
+            subtotal:sum.toFixed(2),
             tax:tax.toFixed(2),
             total:total.toFixed(2)                                           
         })
@@ -293,29 +292,52 @@ router.put("/myCart",isLoggedIn,(req,res)=>{
             }                                          
         });
         var sum=0;
+        var text="";
         for(var i=0;i<filterProducts.length;i++){
             sum=sum+filterProducts[i].subtotal;
-        } 
-        var tax=sum*0.13;
-        var total=sum+tax;
-        for(var i=0;i<filterProducts.length;i++){
             const product={
                 Quantity:filterProducts[i].MAX_Quantity-filterProducts[i].Quantity
             }
             productModel.updateOne({_id:filterProducts[i].productId,},product)
             .then(()=>{})
-            .catch(err=>console.log(`Error happened when updating for the database in cart: ${err}`));
-        }        
-        const sgMail = require('@sendgrid/mail');
-        sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
+            .catch(err=>console.log(`Error happened when updating for the database for order: ${err}`));
+            text += "<tr> <td>"+`${filterProducts[i].Name}`+"</td> <td>"+`${filterProducts[i].Quantity}`+"</td> <td>"+ `${filterProducts[i].Price}`+"</td> <td>"+ `${filterProducts[i].subtotal}`+"</td> </tr>";
+        }         
+        var tax=sum*0.13;
+        var total=sum+tax;             
+        const orderMail = require('@sendgrid/mail');
+        orderMail.setApiKey(process.env.SEND_GRID_API_KEY);
         const PlaceOrder = {
             to: `${req.session.userInfo.email}`,
             from: `s88432000@gmail.com`,
             subject: `Thank you for your Order`,
             html: 
-            `Thank you, ${req.session.userInfo.fullName} <br>`,
+            `Thank you, ${req.session.userInfo.fullName} <br>
+             <table>
+               <tr>
+                  <th>Name</th>
+                  <th>Quantity</th>
+                  <th>Price(unit)</th>
+                  <th>Price</th>                  
+               </tr>               
+               ${text}              
+               <tr>
+                  <td colspan="3">Subtotal: </th>
+                  <td>${sum.toFixed(2)}</th>                                    
+               </tr>
+               <tr>
+                  <td colspan="3">Tax: </th>
+                  <td>${tax.toFixed(2)}</th>                                    
+               </tr>
+               <tr>
+                  <td colspan="3">Total: </th>
+                  <td>${total.toFixed(2)}</th>                                    
+               </tr>
+             </table>
+                        
+            `,
         };
-        sgMail.send(PlaceOrder)
+        orderMail.send(PlaceOrder)
         .then(()=>{            
             cartModel.deleteMany({createBy:req.session.userInfo.email})
             .then(()=>{
@@ -328,8 +350,7 @@ router.put("/myCart",isLoggedIn,(req,res)=>{
             console.log(`Error ${err}`)
         })       
     })
-    .catch(err=>console.log(`Error happened when placing order from the database in cart: ${err}`)); 
-    
+    .catch(err=>console.log(`Error happened when placing order from the database in cart: ${err}`));    
 })
 
 

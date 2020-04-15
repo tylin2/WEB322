@@ -14,7 +14,7 @@
                 <tr>                    
                     <td>
                         <form method="POST" action="/products/MyCart/edit/{{id}}?method=PUT" id="edit_quantity">
-                            Quantity: <input type="number" name="Quantity" id="Quantity" max="{{MAX_Quantity}}" value="{{Quantity}}">
+                            Quantity: <input type="number" name="Quantity" id="Quantity" max="{{MAX_Quantity}}" min="0" value="{{Quantity}}">
                             <input type="submit" value="Change the Quantity">
                         </form>
                     </td>                    
@@ -35,7 +35,7 @@
             </table> 
             {{/each}}                              
         </table>
-        {{#if subtotal}}
+        {{#if data}}
         <table id="sum">
             <form method="POST" action="/products/myCart?method=PUT">
                 <tr>

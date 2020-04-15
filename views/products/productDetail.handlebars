@@ -14,7 +14,7 @@
                 <section>                    
                     <form method="POST" action="/products/MyCart/{{_id}}" id="order">
                         Quantity:
-                        <input type="number" name="Quantity" id="Quantity" max="{{MAX_Quantity}}"> <br>
+                        <input type="number" name="Quantity" id="Quantity" max="{{Quantity}}" min="0"> <br>
                         <input type="submit" value="Add to cart">
                     </form>
                 </section>                                             
