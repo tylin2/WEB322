@@ -324,9 +324,18 @@ router.put("/edit/:id",(req,res)=>{
                 const user={
                         password:req.body.password
                 }
-                user.save({_id:req.params.id},user)
+                userModel.updateOne({_id:req.params.id},user)
                 .then(()=>{
-                        res.redirect("/users/login");                      
+                        bcrypt.genSalt(10)
+                        .then((salt)=>{
+                                bcrypt.hash(this.password,salt)
+                                .then((encryptPassword)=>{
+                                        this.password=encryptPassword;
+                                        res.redirect("/users/login");
+                                })
+                                .catch(err=>console.log(`Error occured when hashing ${err}`));
+                        })
+                        .catch(err=>console.log(`Error occured when salting ${err}`));                      
                 })
                 .catch(err=>console.log(`Error happened when changing password for the database : ${err}`));                 
         }
