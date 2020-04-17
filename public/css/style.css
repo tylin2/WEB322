@@ -251,16 +251,8 @@ tr #pic{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 10px;
 }
-.edit-delete-buttona:hover {
-    background-color:#97C6D0;
-    text-decoration: none;
-    color:#046C97;
-    cursor: auto;background-size: 20px 100px;
-    text-align: center;
-    display:inline-block;    
-  }
-  
-.edit-delete-button:active,.edit-delete-button:link , .edit-delete-button:visited {
+
+.edit-delete-button:link , .edit-delete-button:visited {
     text-decoration: none;
     background-color: #046C97;
     color:#DCF8FB;        
@@ -347,7 +339,7 @@ input[type=submit].place{
         margin-left: 2px;
     }
 
-    .edit-delete-button:active,.edit-delete-button:link , .edit-delete-button:visited {
+    .edit-delete-button:link , .edit-delete-button:visited {
         text-decoration: none;
         background-color: #046C97;
         color:#DCF8FB;        

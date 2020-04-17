@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router();
 const userModel = require("../model/users");
+const productModel = require("../model/products");
+const cartModel = require("../model/cart");
 const isLoggedIn = require("../middleware/auth");
 const AccountLoader = require("../middleware/authorization");
 const isAdmin = require("../middleware/admit");
@@ -182,6 +184,23 @@ router.get("/AdminList",isAdmin,(req,res)=>{
             })
         })
         .catch(err=>console.log(`Error happened when pulling from the database: ${err}`));    
+    })
+
+    router.delete("/delete/:email",isLoggedIn,(req,res)=>{
+        productModel.deleteMany({createBy:req.params.email})
+        .then(()=>{
+                cartModel.deleteMany({createBy:req.params.email})
+                .then(()=>{
+                        userModel.deleteOne({email:req.params.email})
+                        .then(()=>{
+                                 res.redirect("/users/AdminList");
+                        })
+                        .catch(err=>console.log(`Error happened when deleting user from the database :${err}`));
+                })
+                .catch(err=>console.log(`Error happened when deleting data from the database in cart with user :${err}`));
+                
+        })
+        .catch(err=>console.log(`Error happened when deleting data from the database with user :${err}`));
     })
 
 module.exports=router;

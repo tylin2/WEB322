@@ -2,12 +2,13 @@
  
  <section class="list-of-Users">    
 
-    <table border="1" style="text-align: center;">
+    <table border="1" style="text-align: center;" id="adminList">
         <thead>
                 <th>Full Name</th>
                 <th>Email</th>
                 <th>Type</th>
-                <th>Date Create</th>                                                                
+                <th>Date Create</th>
+                <th>Operation</th>                                                                
         </thead>
         <tbody>
             {{#each data}}
@@ -24,12 +25,15 @@
                    </td>
                    <td>
                        <span>{{this.dateCreate}}</span>
-                   </td>                   
+                   </td>
+                   <td>                        
+                        <a href="/users/delete/{{this.email}}?method=DELETE" class="edit-delete-button">Delete</a>
+                   </td>                    
                 </tr>
 
                 {{else}}
                     <td colspan="5">
-                        <p>No tasks in the database</p>
+                        <p>No users in the database</p>
                     </td>
 
                 {{/each}}
