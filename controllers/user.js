@@ -29,9 +29,6 @@ router.post("/registration",(req,res)=>{
 
         if(req.body.email=="")  {                
                 errorMessages.push("! Enter Your email");
-        } else {
-                
-                                 
         }
 
         if(req.body.password=="")   {
@@ -123,7 +120,7 @@ router.get("/login",(req,res)=>{
             
 });
 
-router.post("/login",(req,res)=>{
+router.post("/login",(req,res)=>{       
     userModel.findOne({email:req.body.email})
     .then(user=>{
             const errors=[];
@@ -132,6 +129,7 @@ router.post("/login",(req,res)=>{
                     res.render("users/login",{ 
                         title:"login",
                         headingInfo: "Login",
+                        email:req.body.email,
                         errors       
                         });
             } 
@@ -147,14 +145,89 @@ router.post("/login",(req,res)=>{
                                 res.render("users/login",{ 
                                     title:"login",
                                     headingInfo: "Login",
+                                    email:req.body.email,
                                     errors       
-                                    });
+                                });
                         }
                 })
                 .catch(err=>console.log(`Error: ${err}`));   
             }
     })
     .catch(err=>console.log(`Error: ${err}`));
+});
+
+router.get("/forgotPassword",(req,res)=>{
+       
+        res.render("users/forgot",{ 
+                title:"forgotPassword",
+                headingInfo: "Enter your email"       
+        });            
+});
+
+router.post("/forgotPassword",(req,res)=>{
+        const errorMessages = [];       
+       
+        if(req.body.email=="")  {                
+                errorMessages.push("! Enter Your email");
+        }
+        if(errorMessages.length > 0 )  {                
+                res.render("users/forgot",{ 
+                    title:"forgotPassword",
+                    headingInfo: "Enter your email",                        
+                    errors : errorMessages,                    
+                    email:req.body.email                                 
+                });
+    
+        }else{
+                userModel.findOne({email:req.body.email})
+                .then(user=>{
+                        const errors=[];
+                        if(user==null)  {
+                                errors.push("Sorry!! Your email is incorrect")
+                                res.render("users/forgot",{ 
+                                        title:"forgotPassword",
+                                        headingInfo: "Enter your email",
+                                        email:req.body.email,                        
+                                        errors                                                                       
+                                });
+                        } 
+                else {
+                        const passwordMail = require('@sendgrid/mail');
+                        passwordMail.setApiKey(process.env.SEND_GRID_API_KEY);
+                        const password = {
+                            to: `${req.body.email}`,
+                            from: `s88432000@gmail.com`,
+                            subject: `Reset Password`,
+                            html: 
+                            `A password reset event has been triggered.  <br>
+                            If you do not reset your password within two hours, you will need to submit a new request.<br>
+                            To complete the password reset process, visit the following link:<br>
+                            <br>
+                            xxxx
+                            <br> 
+                            <br>
+                            UserEmail: ${req.body.email}                                        
+                            `,
+                        };
+                        passwordMail.send(password)
+                        .then(()=>{  
+                                const errors=[];
+                                errors.push("Please check your email")          
+                                res.render("users/forgot",{ 
+                                        title:"forgotPassword",
+                                        headingInfo: "Enter your email",
+                                        email:req.body.email,                        
+                                        errors                                                                       
+                                });                            
+                        })
+                        .catch(err=>{
+                            console.log(`Error in forgoting Password:  ${err}`)
+                        })   
+                }
+        })
+        .catch(err=>console.log(`Error: ${err}`));    
+
+        }                      
 });
 
 router.get("/myAccount",isLoggedIn,AccountLoader);
@@ -184,9 +257,9 @@ router.get("/AdminList",isAdmin,(req,res)=>{
             })
         })
         .catch(err=>console.log(`Error happened when pulling from the database: ${err}`));    
-    })
+})
 
-    router.delete("/delete/:email",isLoggedIn,(req,res)=>{
+router.delete("/delete/:email",isAdmin,(req,res)=>{
         productModel.deleteMany({createBy:req.params.email})
         .then(()=>{
                 cartModel.deleteMany({createBy:req.params.email})
@@ -201,6 +274,6 @@ router.get("/AdminList",isAdmin,(req,res)=>{
                 
         })
         .catch(err=>console.log(`Error happened when deleting data from the database with user :${err}`));
-    })
+})
 
 module.exports=router;

@@ -1,0 +1,14 @@
+<div>{{successMessage}}</div>
+    <form action="/users/forgotPassword" method="POST">        
+
+        <label for="email">Enter your Email: </label>
+        <input type="email" id="email" name="email" value={{email}}> <br><br>       
+{{#each errors}}
+    <div >{{this}}</div>
+{{/each}}
+        
+        <input type="submit" value="Submit" class="place"><br>        
+    </form>
+    
+
+</section>
