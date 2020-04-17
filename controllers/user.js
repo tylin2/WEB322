@@ -324,11 +324,11 @@ router.put("/edit/:id",(req,res)=>{
                 const user={
                         password:req.body.password
                 }
-                    userModel.updateOne({_id:req.params.id},user)
-                    .then(()=>{
+                userModel.updateOne({_id:req.params.id},user)
+                .then(()=>{
                         res.redirect("/users/login");                      
-                    })
-                    .catch(err=>console.log(`Error happened when updating for the database in cart: ${err}`));                 
+                })
+                .catch(err=>console.log(`Error happened when changing password for the database : ${err}`));                 
         }
         
 })
