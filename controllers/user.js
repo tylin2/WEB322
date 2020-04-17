@@ -324,20 +324,20 @@ router.put("/edit/:id",(req,res)=>{
                 const user={
                         password:req.body.password
                 }
-                userModel.updateOne({_id:req.params.id},user)
-                .then(()=>{
-                        bcrypt.genSalt(10)
-                        .then((salt)=>{
-                                bcrypt.hash(user.password,salt)
-                                .then((encryptPassword)=>{
-                                        user.password=encryptPassword;
-                                        res.redirect("/users/login");
+                bcrypt.genSalt(10)
+                .then((salt)=>{
+                        bcrypt.hash(user.password,salt)
+                        .then((encryptPassword)=>{
+                                user.password=encryptPassword;
+                                userModel.updateOne({_id:req.params.id},user)
+                                .then(()=>{
+                                         res.redirect("/users/login");          
                                 })
-                                .catch(err=>console.log(`Error occured when hashing ${err}`));
+                                .catch(err=>console.log(`Error happened when changing password for the database : ${err}`));                                
                         })
-                        .catch(err=>console.log(`Error occured when salting ${err}`));                      
+                        .catch(err=>console.log(`Error occured when hashing ${err}`));
                 })
-                .catch(err=>console.log(`Error happened when changing password for the database : ${err}`));                 
+                .catch(err=>console.log(`Error occured when salting ${err}`));                                 
         }
         
 })
