@@ -26,7 +26,7 @@ var userSchema = new Schema({
 
 });
 
-userSchema.pre("save",function(next){
+userSchema.pre("save","updateOne",function(next){
   bcrypt.genSalt(10)
   .then((salt)=>{
     bcrypt.hash(this.password,salt)
