@@ -328,9 +328,9 @@ router.put("/edit/:id",(req,res)=>{
                 .then(()=>{
                         bcrypt.genSalt(10)
                         .then((salt)=>{
-                                bcrypt.hash(this.password,salt)
+                                bcrypt.hash(user.password,salt)
                                 .then((encryptPassword)=>{
-                                        this.password=encryptPassword;
+                                        user.password=encryptPassword;
                                         res.redirect("/users/login");
                                 })
                                 .catch(err=>console.log(`Error occured when hashing ${err}`));
