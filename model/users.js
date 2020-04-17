@@ -39,17 +39,5 @@ userSchema.pre("save",function(next){
   .catch(err=>console.log(`Error occured when salting ${err}`));
 })
 
-userSchema.pre("updateOne",function(next){
-  bcrypt.genSalt(10)
-  .then((salt)=>{
-    bcrypt.hash(this.password,salt)
-    .then((encryptPassword)=>{
-      this.password=encryptPassword;
-      next();
-    })
-    .catch(err=>console.log(`Error occured when hashing ${err}`));
-  })
-  .catch(err=>console.log(`Error occured when salting ${err}`));
-})
 const userModel = mongoose.model('users', userSchema);
 module.exports = userModel;
