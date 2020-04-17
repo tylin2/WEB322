@@ -299,6 +299,12 @@ input[type=submit].place{
     margin-left: 87%;
 }
 
+#adminList{
+    height: 800px;
+    width: 100%;
+    vertical-align:middle;
+}
+
 @media only screen and (max-width: 375px), only screen and (max-device-width: 768px) {    
     header h1 
     {
