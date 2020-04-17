@@ -192,10 +192,11 @@ router.post("/forgotPassword",(req,res)=>{
                                 });
                         } 
                 else {
+                        const {_id,fullName,email}=user;
                         const passwordMail = require('@sendgrid/mail');
                         passwordMail.setApiKey(process.env.SEND_GRID_API_KEY);
                         const password = {
-                            to: `${req.body.email}`,
+                            to: `${email}`,
                             from: `s88432000@gmail.com`,
                             subject: `Reset Password`,
                             html: 
@@ -203,10 +204,11 @@ router.post("/forgotPassword",(req,res)=>{
                             If you do not reset your password within two hours, you will need to submit a new request.<br>
                             To complete the password reset process, visit the following link:<br>
                             <br>
-                            xxxx
+                            https://web322tylin2.herokuapp.com/users/edit/${_id}
                             <br> 
                             <br>
-                            UserEmail: ${req.body.email}                                        
+                            UserName: ${fullName}<br>
+                            UserEmail: ${email}                                        
                             `,
                         };
                         passwordMail.send(password)
@@ -274,6 +276,20 @@ router.delete("/delete/:email",isAdmin,(req,res)=>{
                 
         })
         .catch(err=>console.log(`Error happened when deleting data from the database with user :${err}`));
+})
+
+router.get("/edit/:id",(req,res)=>{    
+        userModel.findById(req.params.id)
+        .then((user)=>{        
+            const {_id,fullName,email}=user;            
+            res.render("users/editPassword",{
+                title:"Reset Password",
+                headingInfo: "Reset Password",
+                _id,fullName,email            
+            })
+        })
+        .catch(err=>console.log(`Error happened when editing for the database: ${err}`));
+        
 })
 
 module.exports=router;

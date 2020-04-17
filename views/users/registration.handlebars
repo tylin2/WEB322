@@ -1,28 +1,28 @@
 
-<!--This will only show if the successMessage was injected into the view -->
-<div>{{successMessage}}</div>
-    <form action="/users/registration" method="POST"> <!--CHANGE GET TO POST -->
-        <h2>{{headingInfo}}</h2>
+<section>
+    <div>{{successMessage}}</div>
+        <form action="/users/registration" method="POST"> <!--CHANGE GET TO POST -->
+            <h2>{{headingInfo}}</h2>
 
-        <label for="fullName">Full Name: </label>
-        <input type="text" id="fullName" name="fullName" value={{fullName}}> <br><br>        
+            <label for="fullName">Full Name: </label>
+            <input type="text" id="fullName" name="fullName" value={{fullName}}> <br><br>        
 
-        <label for="email">Email: </label>
-        <input type="email" id="email" name="email" value={{email}}> <br><br>
+            <label for="email">Email: </label>
+            <input type="email" id="email" name="email" value={{email}}> <br><br>
 
-        <label for="password">Password: </label>
-        <input type="password" id="password" name="password" value={{password}}> <br><br>
+            <label for="password">Password: </label>
+            <input type="password" id="password" name="password" value={{password}}> <br><br>
 
-        <label for="password2">Password again: </label>
-        <input type="password" id="password2" name="password2" value={{password2}}> <br><br>
-        
-<!-- Will only show if the errors array exists-->
-{{#each errors}}
-    <div >{{this}}</div>
-{{/each}}       
+            <label for="password2">Password again: </label>
+            <input type="password" id="password2" name="password2" value={{password2}}> <br><br>
+            
+    <!-- Will only show if the errors array exists-->
+    {{#each errors}}
+        <div >{{this}}</div>
+    {{/each}}       
 
-        <input type="submit" value="Create your account" class="place">
+            <input type="submit" value="Create your account" class="place">
 
-    </form>
+        </form>
 
 </section>
