@@ -281,14 +281,55 @@ router.delete("/delete/:email",isAdmin,(req,res)=>{
 router.get("/edit/:id",(req,res)=>{    
         userModel.findById(req.params.id)
         .then((user)=>{        
-            const {_id,fullName,email}=user;            
+            const {_id}=user;            
             res.render("users/editPassword",{
                 title:"Reset Password",
                 headingInfo: "Reset Password",
-                _id,fullName,email            
+                _id            
             })
         })
         .catch(err=>console.log(`Error happened when editing for the database: ${err}`));
+        
+})
+
+router.put("/edit/:id",(req,res)=>{
+        const errorMessages = [];    
+        if(req.body.password=="")   {
+                errorMessages.push("! Enter Your password");
+        }
+
+        if(req.body.password2=="")   {
+                errorMessages.push("! Enter Your password again");
+        }
+
+        const reg = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~!@#$%^&*()_+`\-={}:";'<>?,.\/]).{6,12}$/;                    
+        if (!reg.test(req.body.password)) {
+                errorMessages.push("! Password must consist of 6-12 letters, numbers, and special symbols");
+        }
+
+        if(req.body.password!=req.body.password2)  {
+                errorMessages.push("! Passwords are not match");
+        }        
+       
+        if(errorMessages.length > 0 )  { 
+                res.render("users/editPassword",{
+                        title:"Reset Password",
+                        headingInfo: "Reset Password",
+                        errors : errorMessages,
+                        password:req.body.password,
+                        password2:req.body.password2
+                                    
+                })         
+        }else{
+                const user={
+                        password:req.body.password
+                }
+                    userModel.updateOne({_id:req.params.id},user)
+                    .then(()=>{
+                        res.redirect("/users/login");                      
+                    })
+                    .catch(err=>console.log(`Error happened when updating for the database in cart: ${err}`));                 
+        }
         
 })
 
