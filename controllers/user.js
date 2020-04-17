@@ -324,7 +324,7 @@ router.put("/edit/:id",(req,res)=>{
                 const user={
                         password:req.body.password
                 }
-                userModel.save({_id:req.params.id},user)
+                user.save({_id:req.params.id},user)
                 .then(()=>{
                         res.redirect("/users/login");                      
                 })
