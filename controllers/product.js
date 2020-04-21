@@ -178,6 +178,10 @@ router.post("/add",isLoggedIn,(req,res)=>{
             }
         }
 
+        if(req.body.productPic==null)  {                            
+            errorMessages.push("! Enter Product's Picture Only image");
+        }
+
         if(errorMessages.length > 0 )  {                
             res.render("products/addForm",{ 
                 title:"Add Product",
